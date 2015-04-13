@@ -1,5 +1,7 @@
 Myapp::Application.routes.draw do
+  get "developers/index"
   get "users/show"
+  get "about_us", to: 'developers#index'
   get 'auth/:provider/callback', to: 'sessions#create'
   get 'auth/failure', to: redirect('/')
   get 'signout', to: 'sessions#destroy', as: 'signout'

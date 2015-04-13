@@ -1,0 +1,19 @@
+<section class="container_carousel">
+  <a id="prev" href="#" onclick="scrollCarouselPrevious()">Previous</a>
+  <a id="next" href="#" onclick="scrollCarouselNext()">Next</a>
+  <a id="add" href="#" onclick="addPanel()">Add</a>
+  <a id="remove" href="#" onclick="removePanel()">Remove</a>
+  <div id="carousel">
+    <% @developers.each do |d| %>
+    <figure>
+      <div>
+        <img src="<%= d.display_picture_url %>" alt>
+        <p>Display Name: <%= d.display_name %></p>
+        <p>Email: <%= d.email %></p>
+        <p>Biography: <%= d.biography %></p>
+      </div>
+    </figure>
+    <% end %>
+
+  </div>
+</section>

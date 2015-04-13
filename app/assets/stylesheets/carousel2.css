@@ -1,0 +1,53 @@
+.container_carousel {
+
+    height: 300px;
+    perspective: 1000px;
+    position: relative;
+    /* width: 210px; */
+    width: 500px;
+    margin: 0px auto;
+}
+
+#carousel {
+    height: 100%;
+    position: absolute;
+    transform-style: preserve-3d;
+    -webkit-transition: -webkit-transform 1s;
+    -moz-transition: -moz-transform 1s;
+    -o-transition: -o-transform 1s;
+    transition: transform 1s;
+    width: 100%;
+}
+
+#carousel figure {
+    background: rgba(63, 63, 63, 0.75);
+    border-radius: 5px;
+    /* font-size: xx-large; */
+    /* line-height: 276px; */
+    /* text-align: center; */
+
+    border: 2px solid black;
+    display: block;
+    height: 276px;
+    left: 10px;
+    margin: 0px;
+    padding: 0px;
+    position: absolute;
+    top: 10px;
+    -webkit-transition: opacity 1s, -webkit-transform 1s;
+    -moz-transition: opacity 1s, -moz-transform 1s;
+    -o-transition: opacity 1s, -o-transform 1s;
+    transition: opacity 1s, transform 1s;
+    /* width: 186px; */
+    width: 500px;
+}
+
+#carousel figure>div {
+    background: #DDD;
+    border-radius: 2.5px;
+    display: block;
+    height: 252px;
+    margin: 12px;
+    /* width: 162px; */
+    width: 472px;
+}

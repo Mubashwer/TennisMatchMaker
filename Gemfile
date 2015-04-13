@@ -29,6 +29,7 @@ gem 'jbuilder', '~> 1.2'
 
 gem "omniauth-google-oauth2", "~> 0.2.1"
 
+
 group :doc do
   # bundle exec rake doc:rails generates the API under doc/api.
   gem 'sdoc', require: false
