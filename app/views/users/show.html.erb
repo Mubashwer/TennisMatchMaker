@@ -22,3 +22,10 @@
   <strong>Gender:</strong>
   <%= @user.gender %>
 </p>
+
+<p>
+<% if @user.id != current_user.id %>
+<%= link_to "Send Message", "#", class: "btn btn-success btn-xs start-conversation",
+            "data-sid" => current_user.id, "data-rip" => @user.id %>
+<% end %>
+<p>
