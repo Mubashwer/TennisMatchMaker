@@ -28,7 +28,7 @@ gem 'turbolinks'
 gem 'jbuilder', '~> 1.2'
 
 gem "omniauth-google-oauth2", "~> 0.2.1"
-
+gem 'country_select', github: 'stefanpenner/country_select'
 gem 'private_pub'
 gem 'thin'
 group :doc do

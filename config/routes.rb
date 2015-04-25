@@ -1,4 +1,6 @@
 Myapp::Application.routes.draw do
+  resources :matches
+
   get "developers/index"
   get "users/show"
   get "about_us", to: 'developers#index'
@@ -6,7 +8,7 @@ Myapp::Application.routes.draw do
   get 'auth/failure', to: redirect('/')
   get 'signout', to: 'sessions#destroy', as: 'signout'
   get 'users/conversations/:id', to: 'conversations#show'
-  resources :users, only: [:show]
+  resources :users
   resources :sessions, only: [:create, :destroy]
   resources :conversations do
     resources :messages

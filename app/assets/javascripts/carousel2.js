@@ -1,9 +1,3 @@
-$(document).ready(function(){
-
-    init();
-
-});
-
 var FULL_TURN_DEGREE = 360;
 
 // Index of panel to display. Initialised in init().
@@ -11,7 +5,7 @@ var carouselCurrentPanelIndex = null;
 
 function getPanels() {
     // Get all carousel panels.
-    return $("#carousel figure");
+    return $("#carousel .carousel-panel");
 }
 
 function getPanelAt(index) {
@@ -48,8 +42,8 @@ function getCarouselCurrentRotateY() {
 function scrollCarousel(direction) {
     // Scroll the carousel in the specified direction.
     if (String(direction).toLowerCase() == "prev" ||
-        String(direction).toLowerCase() == "previous" ||
-        direction == -1) {
+            String(direction).toLowerCase() == "previous" ||
+            direction == -1) {
         carouselCurrentPanelIndex--;
     } else if (String(direction).toLowerCase() == "next" || direction == 1) {
         carouselCurrentPanelIndex++;
@@ -74,35 +68,37 @@ function scrollCarousel(direction) {
 
     return;
 }
-function scrollCarouselPrevious() {
-    scrollCarousel("previous");
-    return;
-}
-function scrollCarouselNext() {
-    scrollCarousel("next");
-    return;
-}
 
 function addPanel() {
     // Append carousel panel to end.
     var carousel = $("#carousel");
-    carousel.append("<figure><div>" + (getPanels().length + 1) + "</div></figure>");
+    carouselCurrentPanelIndex += Math.floor(carouselCurrentPanelIndex / getPanels().length);
+    carousel.append("<figure class=\"carousel-panel\"><div class=\"carousel-content\">" +
+                    "<img src=\"https://dl.dropboxusercontent.com/u/73445707/info30005/workshop/images/Cloud.jpg\" alt=\"Cloud\">" +
+                    "<h2>" + "Display Name" + "</h2>" +
+                    "<p><strong>Email: </strong><br>" + "local@domain.com" + "</p>" +
+                    "<p><strong>Biography: </strong><br>" + "Biography description about display name." + "</p>" +
+                    "</div></figure>");
     scrollCarousel();
     return;
 }
 function removePanel() {
     // Remove carousel panel at end.
+    carouselCurrentPanelIndex -= Math.floor(carouselCurrentPanelIndex / getPanels().length);
     getPanelAt(getPanels().length - 1).remove();
-    if (carouselCurrentPanelIndex > getPanels().length)
-        carouselCurrentPanelIndex = 0;
     scrollCarousel();
     return;
 }
 
-function init() {
-    // On start, load and show the first carousel panel.
+function initCarousel() {
+    // Initialise the carousel.
     carouselCurrentPanelIndex = 0;
     scrollCarousel();
 
+    // Attach onclick handler to #next, #prev, #add, #remove
+    $("#next").click(function() { scrollCarousel("next"); return false; });
+    $("#prev").click(function() { scrollCarousel("previous"); return false; });
+    $("#add").click(function() { addPanel(); return false; });
+    $("#remove").click(function() { removePanel(); return false; });
     return;
 }

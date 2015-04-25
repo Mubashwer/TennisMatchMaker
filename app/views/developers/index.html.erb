@@ -1,19 +1,23 @@
-<section class="container_carousel">
-  <a id="prev" href="#" onclick="scrollCarouselPrevious()">Previous</a>
-  <a id="next" href="#" onclick="scrollCarouselNext()">Next</a>
-  <a id="add" href="#" onclick="addPanel()">Add</a>
-  <a id="remove" href="#" onclick="removePanel()">Remove</a>
+<script type="text/javascript">
+  function init() {
+      initCarousel();
+      return;
+  }
+  $(document).ready(function() { init(); });   
+</script>
+<section id="carousel-container">
   <div id="carousel">
     <% @developers.each do |d| %>
-    <figure>
-      <div>
-        <img src="<%= d.display_picture_url %>" alt>
-        <p>Display Name: <%= d.display_name %></p>
-        <p>Email: <%= d.email %></p>
-        <p>Biography: <%= d.biography %></p>
-      </div>
-    </figure>
+      <figure class="carousel-panel"><div class="carousel-content">
+        <% if d.display_picture_url %>
+          <%= image_tag(d.display_picture_url, options={alt: d.display_name}) %>
+        <% end %>
+        <h2><%= d.display_name %></h2>
+        <p><strong>Email: </strong><br><%= d.email %></p>
+        <p><strong>Biography: </strong><br><%= simple_format(d.biography, nil, wrapper_tag: "span") %></p>
+      </div></figure>
     <% end %>
-
   </div>
+  <a id="prev" class="carousel-button" href="#" title="Next developer">Previous</a>
+  <a id="next" class="carousel-button" href="#" title="Previous developer">Next</a>
 </section>

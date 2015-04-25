@@ -11,6 +11,7 @@ class User < ActiveRecord::Base
       user.gender = auth.extra.raw_info.gender
       user.birthday = auth.extra.raw_info.birthday
       user.save!
+      
     end
   end
 

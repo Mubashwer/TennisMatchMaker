@@ -1,0 +1,45 @@
+<h1>Listing matches</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Player1</th>
+      <th>Player2</th>
+      <th>Player3</th>
+      <th>Player4</th>
+      <th>Start</th>
+      <th>End</th>
+      <th>Court</th>
+      <th>Desc</th>
+      <th>Type</th>
+      <th>Conversation</th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @matches.each do |match| %>
+      <tr>
+        <td><%= match.player1_id %></td>
+        <td><%= match.player2_id %></td>
+        <td><%= match.player3_id %></td>
+        <td><%= match.player4_id %></td>
+        <td><%= match.start %></td>
+        <td><%= match.end %></td>
+        <td><%= match.court %></td>
+        <td><%= match.desc %></td>
+        <td><%= match.match_type %></td>
+        <td><%= match.conversation %></td>
+        <td><%= link_to 'Show', match %></td>
+        <td><%= link_to 'Edit', edit_match_path(match) %></td>
+        <td><%= link_to 'Destroy', match, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Match', new_match_path %>

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150413190041) do
+ActiveRecord::Schema.define(version: 20150425071700) do
 
   create_table "conversations", force: true do |t|
     t.integer  "sender_id"
@@ -31,6 +31,23 @@ ActiveRecord::Schema.define(version: 20150413190041) do
     t.datetime "created_at"
     t.datetime "updated_at"
   end
+
+  create_table "matches", force: true do |t|
+    t.integer  "player1_id"
+    t.integer  "player2_id"
+    t.integer  "player3_id"
+    t.integer  "player4_id"
+    t.datetime "start"
+    t.datetime "end"
+    t.string   "court"
+    t.text     "desc"
+    t.string   "match_type"
+    t.integer  "conversation_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "matches", ["conversation_id"], name: "index_matches_on_conversation_id"
 
   create_table "messages", force: true do |t|
     t.text     "body"
@@ -55,6 +72,8 @@ ActiveRecord::Schema.define(version: 20150413190041) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "provider"
+    t.integer  "postcode"
+    t.string   "country"
   end
 
 end
