@@ -1,30 +1,72 @@
 <!DOCTYPE html>
 <html>
-<head>
-  <title>Tennis Matchmaker</title>
-  <%= stylesheet_link_tag    "application", media: "all", "data-turbolinks-track" => true %>
-  <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" media="screen" rel="stylesheet" />
-  <%= javascript_include_tag "application", "data-turbolinks-track" => true %>
-  <meta content='<%= !current_user.nil? ? current_user.id : "" %>' name='user-id'/>
-  <%= csrf_meta_tags %>
-</head>
-<body>
-  <div class="navbar navbar-inverse" role="navigation">
-       <div class="navbar-header">
-      <div class="container">
-        <%= link_to "Home", root_path, class: 'navbar-brand' %>
-        <% if current_user %>       
-          <%= link_to "Sign out", signout_path, id: "sign_out", class: 'navbar-brand' %>
-        <% else %>
-          <%= link_to "Sign in with Google", "/auth/google_oauth2", id: "sign_in", class: 'navbar-brand' %>
-        <% end %>
-        <%= link_to "About Us", "/about_us", class: 'navbar-brand' %>
-      </div>
-    </div>
-  </div>
-  <div class="container">
-<%= yield %>
-  </div>
-</body>
+    <head>
+        <title>Tennis Matchmaker</title>
+        <%= stylesheet_link_tag    "application", media: "all", "data-turbolinks-track" => true %>
+        <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" media="screen" rel="stylesheet" />
+        <%= javascript_include_tag "application", "data-turbolinks-track" => true %>
+        <meta content='<%= !current_user.nil? ? current_user.id : "" %>' name='user-id'/>
+        <%= csrf_meta_tags %>
+    </head>
+    <body>
+        <%# Header and navigation bar. %>
+        <nav class="navbar navbar-inverse" role="navigation">
+            <div class="container">
+                <%# Logo. %>
+                <div class="navbar-header">
+                    <%= link_to image_tag("logo-full-small.png", alt: "Tennis Matchmaker"), root_path, class: "navbar-logo" %> 
+                </div>
+                <%# Main nav links. %>
+                <ul class="nav navbar-nav">
+                    <li><%= link_to "Home", root_path %></li>
+                    <%# Signed-in users can find and create matches. %>
+                    <% if current_user %>
+                    <li><%= link_to "Upcoming matches", "/upcoming_matches" %></li>
+                    <li><%= link_to "Find matches", matches_path %></li>
+                    <li><%= link_to "Create match", new_match_path %></li>
+                    <% end %>
+                    <li><%= link_to "FAQ", "/faq" %></li>
+                    <li><%= link_to "About us", "/about_us" %></li>
+                </ul>
+                <%# Sign-in/out buttons, profile dropdown links. %>
+                <ul class="nav navbar-nav navbar-right">
+                    <%# Google+ sign-in button, hide when user signed in. %>
+                    <% if !current_user %>
+                    <li>
+                        <div>
+                            <%= link_to image_tag("Red-signin-Medium-base-32dp.png", alt: "Sign in"), "/auth/google_oauth2", id: "sign_in", class: "navbar-signin" %>
+                        </div>
+                    </li>
+                    <%# User dropdown menu, hide when user signed out. %>
+                    <% else %>
+                    <li class="dropdown">
+                        <a class="dropdown-toggle" data-toggle="dropdown" href="#"><%= current_user.name %><span class="caret"></span></a>
+                        <ul class="dropdown-menu">
+                            <% if current_user.image %>
+                            <li class="dropdown-menu-list-profilepicture"><%= image_tag(current_user.image, alt: "Profile picture", class: "img-thumbnail", size: "96x96") %></li>
+                            <li class="divider"></li>
+                            <% end %>
+                            <li><%= link_to "View profile and messages", "/view_profile" %></li>
+                            <li><%= link_to "Upcoming matches", "/upcoming_matches" %></li>
+                            <li><%= link_to "Previous matches", "/prev_matches" %></li>
+                            <li class="divider"></li>
+                            <li><%= link_to "Sign out", signout_path, id: "sign_out" %></li>
+                        </ul>
+                    </li>
+                    <% end %>
+                </ul>
+            </div>
+        </nav>
+        <%# Main content. %>
+        <div class="container">
+            <%= yield %>
+        </div>
+        <%# Footer. %>
+        <br>
+        <footer class="footer">
+            <div class="container">
+                <p class="text-muted">2015 TennisMatchmaker.co No Rights Reserved.</p>
+            </div>
+        </footer>
+    </body>
 </html>
-

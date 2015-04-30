@@ -7,10 +7,7 @@ class UsersController < ApplicationController
             redirect_to root_path
         end
     end
-    # GET /users/new
-    def new
-        @users = User.new
-    end
+
 
     # GET /users/1/edit
     def edit
@@ -18,10 +15,7 @@ class UsersController < ApplicationController
 
     def show
         if current_user.nil? then redirect_to root_path end
-        respond_to do |format|
-            format.html
-            format.json { render json: @user }
-        end
+        @matches = Match.previous_matches(@user.id)
     end
 
     def update

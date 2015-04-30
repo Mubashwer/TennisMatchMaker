@@ -1,21 +1,6 @@
 <p>
-  <strong>Provider:</strong>
-  <%= @user.provider %>
-</p>
-
-<p>
-  <strong>UID:</strong>
-  <%= @user.uid %>
-</p>
-
-<p>
   <strong>Name:</strong>
   <%= @user.name %>
-</p>
-
-<p>
-  <strong>Email:</strong>
-  <%= @user.email %>
 </p>
 
 <p>
@@ -24,8 +9,33 @@
 </p>
 
 <p>
+  <strong>Location:</strong>
+  <%= if @user.postcode or @user.country then @user.postcode.to_s + ' ' + @user.country end%>
+</p>
+
+<p>
 <% if @user.id != current_user.id %>
 <%= link_to "Send Message", "#", class: "btn btn-success btn-xs start-conversation",
             "data-sid" => current_user.id, "data-rip" => @user.id %>
 <% end %>
-<p>
+
+
+<h2> Previous Matches </h2>
+<ul class="media-list"> 
+<% @matches.each do |match| %>
+   <li class="media">
+      <a class="pull-left" href="#">
+         <%= image_tag(User.find_by_id(match.player1_id).image, :style => "float :left;") %>
+         <%= if match.player2_id then image_tag(User.find_by_id(match.player2_id).image, :style => "float :left;") end %>
+         <%= if match.player3_id then image_tag(User.find_by_id(match.player3_id).image, :style => "float :left;") end %>
+         <%= if match.player4_id then image_tag(User.find_by_id(match.player4_id).image, :style => "float :left;") end %>
+        <div class="media-body">
+            <h4 class="media-heading"><%=match.court %></h4>
+         	<p><%=match.desc %></p>
+      	</div>
+      </a>
+    </li>
+
+ <% end %>
+</ul>
+

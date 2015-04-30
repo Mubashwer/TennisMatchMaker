@@ -1,26 +1,5 @@
 
-<div class="jumbotron">
-  <h1>Tennis Matchmaker</h1>
-  <p>Find tennis partners, locate tennis courts, and arrange tennis matches.</p>
-  <p><i>"A solid 10/10." - IGN</i></p>
-</div>
-<div class="row">
-  <div class="col-sm-6">
-    <h2>What is <i>Tennis Matchmaker</i>?</h2>
-    <p>Tennis Matchmaker is a web application that allows various people to meet up and play tennis in a seamless way.</p>
-    <h2>Why Tennis Matchmaker?</h2>
-    <p>Because you have no friends to play with lol. The quick brown fox jumps over the lazy dog. The quick brown fox jumps over the lazy dog.</p>
-    <h2>How do I start?</h2>
-    <p>You register and do this, that. And then you play tennis. That's all.</p>
-    <h2>Generic Question/Intro 1</h2>
-    <p>This page is intended as an introduction and promoting the web application. Actually help questions go into the FAQ page.</p>
-    <h2>Generic Question/Intro n</h2>
-    <p>More generic answer represented as a paragraph.</p>
-  </div>
-  <div class="col-sm-6">
-    IMAGE CAROUSEL OF TENNIS PLAYERS GO HERE.
-  </div>
-</div>
+<h1 align="center">Welcome to Tennis Matchmaker<strong><%= if current_user then ", " + current_user.first_name end %></strong>!</h1>
 
 <%if current_user %>
     <h3>Your Conversations</h3>

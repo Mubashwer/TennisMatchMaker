@@ -1,0 +1,37 @@
+/* Navigation bar. */
+a.navbar-logo {
+  display: block;
+  height: 50px;
+  padding: 5px 15px;
+}
+
+a.navbar-signin {
+  display: block;
+  height: 50px;
+  padding: 4px 15px;
+}
+
+li.dropdown-menu-list-profilepicture {
+  text-align: center;
+}
+
+/* Sticky footer.
+ * Adapted from: http://getbootstrap.com/examples/sticky-footer/sticky-footer.css
+ */
+html {
+  min-height: 100%;
+  position: relative;
+}
+footer {
+  background-color: #222;
+  bottom: 0;
+  height: 24px;   /* Space used by footer.
+                   * If set to body.margin-bottom, then no space between content
+                   * and footer.
+                   */
+  position: absolute;
+  width: 100%;
+}
+footer p {
+  margin: 2px;
+}
