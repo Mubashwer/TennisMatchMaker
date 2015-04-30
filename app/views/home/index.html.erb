@@ -22,27 +22,4 @@
   </div>
 </div>
 
-<%if current_user %>
-    <h3>Your Conversations</h3>
-
-    <div style="height: 400px; overflow-y: auto;">
-      <% if @conversations.any? %>
-          <ul class="media-list">
-            <% @conversations.each do |conversation| %>
-                <li class="media">
-                  <%= image_tag(User.find_by_id(conversation_interlocutor(conversation).id).image, class: "media-object pull-left") %>
-                  <div class="media-body">
-                    <%= link_to "show", conversation_path(conversation), class: "conversation", "data-cid" => conversation.id %>
-                        <h4 class="media-heading"><%= conversation_interlocutor(conversation).name %></h4>
-                        <p><%= conversation.messages.last.nil? ? "No messages" : truncate(conversation.messages.last.body, length: 45) %></p>
-                  </div>
-                </li>
-
-            <% end %>
-          </ul>
-      <% else %>
-          <p>You have no conversations. Click send message with any user to create one.</p>
-      <% end %>
-    </div>
-<% end %>
 

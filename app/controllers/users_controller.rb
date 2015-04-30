@@ -16,6 +16,11 @@ class UsersController < ApplicationController
     def show
         if current_user.nil? then redirect_to root_path end
         @matches = Match.previous_matches(@user.id)
+        @myprofile = false
+        if current_user.id == @user.id then @myprofile = true end
+
+        @users = User.where.not("id = ?",current_user.id).order("created_at DESC")
+        @conversations = Conversation.involving(current_user).order("created_at DESC")
     end
 
     def update
