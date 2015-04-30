@@ -14,6 +14,7 @@ class UsersController < ApplicationController
     end
 
     def show
+        
         if current_user.nil? then redirect_to root_path end
         @matches = Match.previous_matches(@user.id)
         @myprofile = false
@@ -36,7 +37,8 @@ class UsersController < ApplicationController
     end
 
     def set_user
-        @user = User.find(params[:id])
+        @user = User.find_by_id(params[:id])
+        if @user.nil? and current_user then @user = current_user end
     end
 
     def user_params

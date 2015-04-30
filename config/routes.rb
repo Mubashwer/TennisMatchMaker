@@ -1,6 +1,6 @@
 Myapp::Application.routes.draw do
   resources :matches
-
+  get "view_profile", to: 'users#show'
   get "developers/index"
   get "users/show"
   get "about_us", to: 'developers#index'
