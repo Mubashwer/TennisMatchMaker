@@ -52,3 +52,28 @@
 
 <%= link_to 'Edit', edit_match_path(@match) %> |
 <%= link_to 'Back', matches_path %>
+
+
+<%= content_tag :div, class: "chatbox", id: "chatbox_" + @conversation.id.to_s, style: "display:block;width:60%;" do -%>
+<div class="chatboxhead">
+  <div class="chatboxtitle">
+    <i class="fa fa-comments"></i>
+
+    <h1>Chat Room</h1>
+  </div>
+  <div class="chatboxoptions"></div>
+  <br clear="all"/>
+</div>
+<div class="chatboxcontent" style="width:auto">
+  <% if @messages.any? %>
+      <%= render @messages %>
+  <% end %>
+</div>
+<div class="chatboxinput">
+  <%= form_for([@conversation, @message], :remote => true, :html => {id: "conversation_form_#{@conversation.id}"}) do |f| %>
+      <%= f.text_area :body, class: "chatboxtextarea", style: 'width: 100%;', "data-cid" => @conversation.id %>
+  <% end %>
+</div>
+<% end %>
+<%= subscribe_to conversation_path(@conversation) %>
+

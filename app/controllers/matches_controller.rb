@@ -11,6 +11,10 @@ class MatchesController < ApplicationController
   # GET /matches/1
   # GET /matches/1.json
   def show
+
+    @conversation = Conversation.find_by_id(@match.conversation_id)
+    @messages = @conversation.messages
+    @message = Message.new
   end
 
   # GET /matches/new
@@ -27,6 +31,12 @@ class MatchesController < ApplicationController
   def create
     @match = Match.new(match_params)
     @match.player1_id = current_user.id
+    conv = Conversation.new
+    conv.match_id = @match.id
+    conv.save!
+    @match.conversation_id = conv.id
+
+
     respond_to do |format|
       if @match.save
         format.html { redirect_to @match, notice: 'Match was successfully created.' }

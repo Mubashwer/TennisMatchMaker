@@ -31,6 +31,8 @@ gem "omniauth-google-oauth2", "~> 0.2.1"
 gem 'country_select', github: 'stefanpenner/country_select'
 gem 'private_pub'
 gem 'thin'
+gem 'gemoji'
+
 group :doc do
   # bundle exec rake doc:rails generates the API under doc/api.
   gem 'sdoc', require: false

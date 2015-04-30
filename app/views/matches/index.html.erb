@@ -1,5 +1,6 @@
 <h1>Listing matches</h1>
-
+<%= link_to 'New Match', new_match_path,:class=>"btn btn-success btn-sm" %>
+<br>
 <script type="text/javascript">
   function init() {
       initCarousel();
@@ -7,6 +8,7 @@
   }
   $(document).ready(function() { init(); });   
 </script>
+<div style="background-image:url('/assets/tennis-courts-grass.jpg');background-repeat: no-repeat;background-position: center;background-size:70% 70%">
 <section id="carousel-container">
   <div id="carousel" data-carousel-current-panel-index="0">
     <% @match_distances[0..3].each do |match_id, dist|
@@ -16,23 +18,19 @@
         <% if user.image %>
           <%= image_tag(user.image, options={alt: user.name}) %>
         <% end %>
-        <h2><%= user.name %></h2>
-	<p><%= match.start%></p>
-	<p><%= match.end%></p>
+        <h2><%= user.name.split.map(&:capitalize).join(' ') %></h2>
+	<p class="btn btn-success btn-block"><%= match.start%></p>
+	<p class="btn btn-warning btn-block"><%= match.end%></p>
 	<p><%= match.match_type%></p>
+	<p><%= dist/1000.0%>km away</p>
       </div></figure>
     <% end %>
   </div>
   <a id="prev" class="carousel-button" href="#" title="Next developer">Previous</a>
   <a id="next" class="carousel-button" href="#" title="Previous developer">Next</a>
 </section>
-
-
-
-<br>
-<br>
-
-<%= link_to 'New Match', new_match_path,:class=>"btn btn-success btn-block" %>
+</div>
 
 <br>
 <br>
+

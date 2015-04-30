@@ -1,4 +1,7 @@
 var FULL_TURN_DEGREE = 360;
+var MIN_DELTA_MOUSE_PRESS_X = 100;    /* Minimum x distance of mouse movement to
+                                       * swipe carousel, in pixels, as a number.
+                                       */
 
 // Get all carousel panels.
 function getPanels() { return $("#carousel .carousel-panel"); }
@@ -110,10 +113,24 @@ function initCarousel() {
     // Orientate panels and carousel.
     orientatePanels();
 
-    // Attach swipe to carousel container. 
-    $("#carousel-container").on("swipeleft", function(event){ scrollCarousel("next"); });
-    $("#carousel-container").on("swiperight", function(event){ scrollCarousel("prev"); });
-    // Remove shadows from images.
+    // Attach mouse swipe to carousel container. 
+    var startMousePressX = null, endMousePressX = null, deltaMousePressX = 0;
+    $("#carousel-container").mousedown(function(e) {
+        startMousePressX = e.pageX;
+    });
+    $(window).mousemove(function(e) {
+        if (startMousePressX) {
+            endMousePressX = e.pageX;
+            deltaMousePressX = Math.abs(endMousePressX - startMousePressX);
+            if (deltaMousePressX >= MIN_DELTA_MOUSE_PRESS_X) {
+                scrollCarousel(-(endMousePressX - startMousePressX) / deltaMousePressX);
+                startMousePressX = endMousePressX;
+            }
+        }
+    });
+    $(window).mouseup(function(e) { startMousePressX = null; });
+    
+    // Remove images shadows while dragging.
     $("#carousel img").attr("draggable", "false");
 
     // Attach onclick handler to #next, #prev, #add, #remove.
@@ -132,7 +149,6 @@ function initCarousel() {
             default:
                 break;
         }
-        e.preventDefault();
     });
     return;
 }

@@ -12,6 +12,11 @@ class MessagesController < ApplicationController
             format.html
             format.js
     end
+
+    if @conversation.match_id.nil?
+      rip = current_user == @conversation.recipient ? @conversation.sender : @conversation.recipient
+      PrivatePub.publish_to("/notifications" + rip.id.to_s, cid: @conversation.id, sid: current_user.id, rip:  rip.id)
+    end
   end
   private
 
