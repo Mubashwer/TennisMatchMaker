@@ -1,49 +1,38 @@
 <h1>Listing matches</h1>
 
-<%= @match_distances%>
-</br>
-</br>
-
-<table>
-  <thead>
-    <tr>
-      <th>Player1</th>
-      <th>Player2</th>
-      <th>Player3</th>
-      <th>Player4</th>
-      <th>Start</th>
-      <th>End</th>
-      <th>Court</th>
-      <th>Desc</th>
-      <th>Type</th>
-      <th>Conversation</th>
-      <th></th>
-      <th></th>
-      <th></th>
-    </tr>
-  </thead>
-
-  <tbody>
-    <% @matches.each do |match| %>
-      <tr>
-        <td><%= match.player1_id %></td>
-        <td><%= match.player2_id %></td>
-        <td><%= match.player3_id %></td>
-        <td><%= match.player4_id %></td>
-        <td><%= match.start %></td>
-        <td><%= match.end %></td>
-        <td><%= match.court %></td>
-        <td><%= match.desc %></td>
-        <td><%= match.match_type %></td>
-        <td><%= match.conversation %></td>
-        <td><%= link_to 'Show', match %></td>
-        <td><%= link_to 'Edit', edit_match_path(match) %></td>
-        <td><%= link_to 'Destroy', match, method: :delete, data: { confirm: 'Are you sure?' } %></td>
-      </tr>
+<script type="text/javascript">
+  function init() {
+      initCarousel();
+      return;
+  }
+  $(document).ready(function() { init(); });   
+</script>
+<section id="carousel-container">
+  <div id="carousel" data-carousel-current-panel-index="0">
+    <% @match_distances[0..3].each do |match_id, dist|
+          match = Match.find_by(id:match_id)
+          user = User.find_by(id:match.player1_id)%>
+      <figure class="carousel-panel"><div class="carousel-content">
+        <% if user.image %>
+          <%= image_tag(user.image, options={alt: user.name}) %>
+        <% end %>
+        <h2><%= user.name %></h2>
+	<p><%= match.start%></p>
+	<p><%= match.end%></p>
+	<p><%= match.match_type%></p>
+      </div></figure>
     <% end %>
-  </tbody>
-</table>
+  </div>
+  <a id="prev" class="carousel-button" href="#" title="Next developer">Previous</a>
+  <a id="next" class="carousel-button" href="#" title="Previous developer">Next</a>
+</section>
+
+
 
 <br>
+<br>
 
-<%= link_to 'New Match', new_match_path %>
+<%= link_to 'New Match', new_match_path,:class=>"btn btn-success btn-block" %>
+
+<br>
+<br>

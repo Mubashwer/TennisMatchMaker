@@ -1,0 +1,121 @@
+#carousel-container {
+    cursor: -webkit-grab;
+    cursor: -moz-grab;
+    cursor: grab;
+    height: 540px;
+    margin: 0px auto;
+    perspective: 1000px;
+    position: relative;
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    width: 360px;
+}
+#carousel-container:active {
+    cursor: -webkit-grabbing;
+    cursor: -moz-grabbing;
+    cursor: grabbing;
+}
+
+#carousel-container .carousel-button {
+    background: #44D;
+    background: -webkit-linear-gradient(135deg, #44E, #44D, #44C);
+    background: -o-linear-gradient(135deg, #44E, #44D, #44C);
+    background: -moz-linear-gradient(135deg, #44E, #44D, #44C);
+    background: linear-gradient(135deg, #44E, #44D, #44C);
+    border: thin solid #44B;
+    border-radius: 2px;
+    box-shadow: 0px 0px 2px rgba(0, 0, 0, 0.2) inset;
+    color: #FFF;
+    display: inline-block;
+    height: 30px;
+    line-height: 30px;
+    position: absolute;
+    text-align: center;
+    text-decoration: none;
+    top: 540px;
+    width: 100px;
+}
+#carousel-container .carousel-button:hover {
+    background: #55E;
+    background: -webkit-linear-gradient(135deg, #55F, #55E, #55D);
+    background: -o-linear-gradient(135deg, #55F, #55E, #55D);
+    background: -moz-linear-gradient(135deg, #55F, #55E, #55D);
+    background: linear-gradient(135deg, #55F, #55E, #55D);
+    border: thin solid #55C;
+}
+#carousel-container .carousel-button:active {
+    background: #33C;
+    background: -webkit-linear-gradient(135deg, #33D, #33C, #33B);
+    background: -o-linear-gradient(135deg, #33D, #33C, #33B);
+    background: -moz-linear-gradient(135deg, #33D, #33C, #33B);
+    background: linear-gradient(135deg, #33D, #33C, #33B);
+    border: thin solid #33A;
+}
+
+#carousel-container .carousel-button#next   { left: calc(360px - 50px); }
+#carousel-container .carousel-button#prev   { left: calc(0px - 50px); }
+#carousel-container .carousel-button#add    { left: calc(120px - 50px); }
+#carousel-container .carousel-button#remove { left: calc(240px - 50px); }
+
+#carousel {
+    height: 100%;
+    position: absolute;
+    transform-style: preserve-3d;
+    -webkit-transition: -webkit-transform 1s;
+    -moz-transition: -moz-transform 1s;
+    -o-transition: -o-transform 1s;
+    transition: transform 1s;
+    width: 100%;
+}
+
+#carousel .carousel-panel {
+    background: #DDD;
+    background: -webkit-linear-gradient(135deg, #EEE, #DDD, #CCC);
+    background: -o-linear-gradient(135deg, #EEE, #DDD, #CCC);
+    background: -moz-linear-gradient(135deg, #EEE, #DDD, #CCC);
+    background: linear-gradient(135deg, #EEE, #DDD, #CCC);
+    border: 2px solid #BBB;
+    border-radius: 4px;
+    box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.2) inset;
+    display: block;
+    height: calc(100% - 10px - 4px - 8px);
+    left: 10px;
+    margin: 0px;
+    padding: 0px;
+    position: absolute;
+    top: 10px;
+    -webkit-transition: opacity 1s, -webkit-transform 1s;
+    -moz-transition: opacity 1s, -moz-transform 1s;
+    -o-transition: opacity 1s, -o-transform 1s;
+    transition: opacity 1s, transform 1s;
+    width: calc(100% - 10px - 4px - 8px);
+}
+
+#carousel .carousel-panel .carousel-content {
+    background: #111;
+    color: #FFF;
+    display: block;
+    height: calc(100% - 20px);
+    margin: 10px;
+    overflow-y: auto;
+    width: calc(100% - 20px);
+}
+
+#carousel .carousel-panel .carousel-content img {
+    max-height: 360px;
+    max-width: 100%;
+}
+#carousel .carousel-panel .carousel-content h1,
+#carousel .carousel-panel .carousel-content h2,
+#carousel .carousel-panel .carousel-content h3,
+#carousel .carousel-panel .carousel-content h4,
+#carousel .carousel-panel .carousel-content h5,
+#carousel .carousel-panel .carousel-content h6,
+#carousel .carousel-panel .carousel-content p {
+    margin: 10px;
+    word-wrap: break-word;
+}

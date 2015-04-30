@@ -6,7 +6,7 @@
   $(document).ready(function() { init(); });   
 </script>
 <section id="carousel-container">
-  <div id="carousel">
+  <div id="carousel" data-carousel-current-panel-index="0">
     <% @developers.each do |d| %>
       <figure class="carousel-panel"><div class="carousel-content">
         <% if d.display_picture_url %>

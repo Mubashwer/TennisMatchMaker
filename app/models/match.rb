@@ -17,16 +17,20 @@ class Match < ActiveRecord::Base
 
     p1_postcode = user.postcode
 
-    Match.all.collect do |match|
+    Match.all.each do |match|
+
+      m = User.find_by(id:match.player1_id)
+      if m.id != user.id
       
-      tmp = [match.id]
-      p2_postcode = (User.find_by(id:match.player1_id)).postcode
+        tmp = [match.id]
+        p2_postcode = (m).postcode
 
-      url = "https://maps.googleapis.com/maps/api/distancematrix/json?origins=#{p1_postcode}%2CAustralia&destinations=#{p2_postcode}%2CAustralia"
-      doc = JSON.parse(open(url).read)
+        url = "https://maps.googleapis.com/maps/api/distancematrix/json?origins=#{p1_postcode}%2CAustralia&destinations=#{p2_postcode}%2CAustralia"
+        doc = JSON.parse(open(url).read)
 
-      tmp << doc["rows"][0]["elements"][0]["distance"]["value"]
-      match_distances << tmp
+        tmp << doc["rows"][0]["elements"][0]["distance"]["value"]
+        match_distances << tmp
+      end
     end
 
     return match_distances.sort{|id,dist| dist <=> id}
