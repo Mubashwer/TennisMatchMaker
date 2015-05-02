@@ -1,4 +1,5 @@
 Myapp::Application.routes.draw do
+  
   resources :matches
   get "view_profile", to: 'users#show'
   get "developers/index"
@@ -8,6 +9,13 @@ Myapp::Application.routes.draw do
   get 'auth/failure', to: redirect('/')
   get 'signout', to: 'sessions#destroy', as: 'signout'
   get 'users/conversations/:id', to: 'conversations#show'
+
+
+  match '/matches/:id/join', to: 'matches#join', via: [:patch]
+  match '/matches/:id/kick', to: 'matches#kick', via: [:patch]
+  
+  get "faq", to: 'faq#index'
+  
   resources :users
   resources :sessions, only: [:create, :destroy]
   resources :conversations do

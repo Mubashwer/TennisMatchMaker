@@ -1,3 +1,4 @@
+<%= if notice then content_tag(:div, content_tag(:p, notice[0]), class: notice[1]) end %>
 <h1>Listing matches</h1>
 <%= link_to 'New Match', new_match_path,:class=>"btn btn-success btn-sm" %>
 <br>

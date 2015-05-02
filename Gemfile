@@ -32,7 +32,7 @@ gem 'country_select', github: 'stefanpenner/country_select'
 gem 'private_pub'
 gem 'thin'
 gem 'gemoji'
-
+gem 'bootstrap_form'
 group :doc do
   # bundle exec rake doc:rails generates the API under doc/api.
   gem 'sdoc', require: false

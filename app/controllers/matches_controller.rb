@@ -1,6 +1,9 @@
 class MatchesController < ApplicationController
-  before_action :set_match, only: [:show, :edit, :update, :destroy]
+  before_action :authenticate_user
+  before_action :set_match, only: [:show, :edit, :update, :destroy, :join, :kick]
+  
 
+  include MatchesHelper
   # GET /matches
   # GET /matches.json
   def index
@@ -15,6 +18,7 @@ class MatchesController < ApplicationController
     @conversation = Conversation.find_by_id(@match.conversation_id)
     @messages = @conversation.messages
     @message = Message.new
+
   end
 
   # GET /matches/new
@@ -39,7 +43,7 @@ class MatchesController < ApplicationController
 
     respond_to do |format|
       if @match.save
-        format.html { redirect_to @match, notice: 'Match was successfully created.' }
+        format.html { redirect_to @match, notice: ['Match was successfully created.', "alert alert-dismissible alert-success"] }
         format.json { render action: 'show', status: :created, location: @match }
       else
         format.html { render action: 'new' }
@@ -53,7 +57,7 @@ class MatchesController < ApplicationController
   def update
     respond_to do |format|
       if @match.update(match_params)
-        format.html { redirect_to @match, notice: 'Match was successfully updated.' }
+        format.html { redirect_to @match, notice: ['Match was successfully updated.', "alert alert-dismissible alert-success"] }
         format.json { head :no_content }
       else
         format.html { render action: 'edit' }
@@ -62,29 +66,55 @@ class MatchesController < ApplicationController
     end
   end
 
+  def join
+    pids = get_player_list(@match).map{|p| p.try(:id)} # list of player ids
+    status = false
+    if can_join(pids) #if possible, join
+      status = join_now(@match, current_user.id)
+      done = ["joined", "success"]
+    elsif pids.include?(current_user.id) #if already joined, then leave
+      status = leave_now(@match, current_user.id, @host)
+      done = ["left", "warning"]
+      if !get_player_list(@match).any? #if there is no more players in match, then destroy
+        destroy
+        return
+      end
+    end
+
+    respond_to do |format|
+      if status and @match.save!
+        format.html { redirect_to @match, notice: ['You have succesfully ' + done[0] + ' the match.', "alert alert-dismissible alert-" + done[1]] }
+      else
+        format.html { redirect_to @match, notice: ['Sorry, your request could not be processed.', "alert alert-dismissible alert-danger"] }
+      end
+    end
+  end
+
+  def kick
+    status = false
+    pid = params[:match][:pid].to_i
+    # find and kick player out by setting foreign key to nil
+    if (@match.player2_id == pid) then @match.player2_id = nil; status = true
+    elsif (@match.player3_id == pid) then @match.player3_id = nil; status = true
+    elsif (@match.player4_id == pid) then @match.player4_id = nil; status = true
+    end
+
+    respond_to do |format|
+      if status and @match.save!
+        format.html { redirect_to @match, notice: ['Player have been successfully kicked out.', "alert alert-dismissible alert-success" ] }
+      else
+        format.html { redirect_to @match, notice: ['Sorry, your request could not be processed.', "alert alert-dismissible alert-danger"] }
+      end
+    end
+  end
+
   # DELETE /matches/1
   # DELETE /matches/1.json
   def destroy
-    if @match.player1_id == current_user.id 
-      @match.player1_id = nil
-      
-      if @match.player2_id
-        @match.player1_id, @match.player2_id = @match.player2_id, @match.player1_id
-      elsif @match.player3_id
-        @match.player1_id, @match.player3_id = @match.player3_id, @match.player1_id 
-      elsif @match.player4_id
-        @match.player1_id, @match.player4_id = @match.player4_id, @match.player1_id 
-      end
-      
-      if @match.player1_id.nil? then @match.destroy end
+   @match.destroy
 
-    elsif @match.player2_id == current_user.id then @match.player2_id = nil
-    elsif @match.player3_id == current_user.id then @match.player3_id = nil
-    elsif @match.player4_id == current_user.id then @match.player4_id = nil 
-    end
     respond_to do |format|
-      format.html { redirect_to matches_url }
-      format.json { head :no_content }
+      format.html { redirect_to matches_url, notice: ['You have succesfully left the match.', "alert alert-dismissible alert-warning"]}
     end
   end
 
@@ -92,10 +122,14 @@ class MatchesController < ApplicationController
     # Use callbacks to share common setup or constraints between actions.
     def set_match
       @match = Match.find(params[:id])
+      @host = false
+      if current_user and current_user.id == @match.player1_id
+        @host = true
+      end
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def match_params
-      params.require(:match).permit(:start, :end, :court, :desc, :match_type)
+      params.require(:match).permit(:start, :end, :court, :desc, :match_type, :pid)
     end
 end

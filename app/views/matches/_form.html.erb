@@ -1,4 +1,5 @@
-<%= form_for(@match) do |f| %>
+<%= bootstrap_form_for(@match, layout: :horizontal, label_col: "col-lg-2 control-label", control_col: "col-lg-10", :html => {:style => "width:55%;"}) do |f| %>
+  <fieldset>
   <% if @match.errors.any? %>
     <div id="error_explanation">
       <h2><%= pluralize(@match.errors.count, "error") %> prohibited this match from being saved:</h2>
@@ -11,29 +12,13 @@
     </div>
   <% end %>
 
-  <div class="field">
-    <%= f.label :match_type %><br>
-    <%= f.select :match_type, options_for_select(%w[Single Double]) %>
-  </div>
-  <div class="field">
-    <%= f.label :start %><br>
-    <%= f.datetime_select :start %>
-  </div>
-  <div class="field">
-    <%= f.label :end %><br>
-    <%= f.datetime_select :end %>
-  </div>
-  <div class="field">
-    <%= f.label :court %><br>
-    <%= f.text_field :court %>
-  </div>
-  <div class="field">
-    <%= f.label :desc %><br>
-    <%= f.text_area :desc %>
-  </div>
-
-
-  <div class="actions">
-    <%= f.submit %>
-  </div>
+<%= f.select :match_type, options_for_select(%w[Single Double]) %>
+<%= f.datetime_select :start %>
+<%= f.datetime_select :end %>
+<%= f.text_field :court %>
+<%= f.text_area :desc %>
+<%= f.submit "Reset", :type => "reset" %>
+<%= f.submit "Submit", :class => "btn btn-primary" %>
+</fieldset>
 <% end %>
+<br />

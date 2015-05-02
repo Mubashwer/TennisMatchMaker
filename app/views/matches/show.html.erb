@@ -1,32 +1,74 @@
-<p id="notice"><%= notice %></p>
+<%= if notice then content_tag(:div, content_tag(:p, notice[0]), class: notice[1]) end %>
 
+<% p = get_player_list(@match); %>
+
+
+<%= form_for(@match, url: {action: "join"}) do |f| %>
+	<%= f.submit 'Join/Leave', :class => "btn btn-success btn-lg btn-block" %>
+	<br />
+<% end %>
+
+
+<div class="panel panel-primary", id="details", style="float:left;width:40%;min-height:670px;">
+<div class="panel-heading">
+<h3 class="panel-title"> Match Details</h3>
+</div>
+<div class="panel-body">
+
+
+<div class="panel panel-default">
+<div class="panel-heading">Players</div>
+<div class="panel-body">
 <p>
-  <strong>Player1:</strong>
-  <%= @match.player1_id %>
+  <%= p[0].try(:name) + " (Host)" %>
 </p>
 
 <p>
-  <strong>Player2:</strong>
-  <%= @match.player2_id %>
+  <%= form_for(@match, url: {action: "kick"}) do |f| %>
+  <%= p[1].try(:name) %>
+	<% if @host and p[1]%> 
+	<%= f.hidden_field :pid, :value => p[1].id %>
+	<%= f.submit 'kick out', :class => "btn btn-danger btn-xs", html:{style: style="display:inline"} %> 
+	<% end %>
+  <% end %>
+</p>
+
+
+<p>
+  <%= form_for(@match, url: {action: "kick"}) do |f| %>
+  <%= p[2].try(:name) %>
+	<% if @host and p[2] %> 
+	<%= f.hidden_field :pid, :value => p[2].id %>
+	<%= f.submit 'kick out', :class => "btn btn-danger btn-xs", html:{style: style="display:inline"} %> 
+	<% end %>
+  <% end %>
+</p>
+
 </p>
 
 <p>
-  <strong>Player3:</strong>
-  <%= @match.player3_id %>
+  <%= form_for(@match, url: {action: "kick"}) do |f| %>
+  <%= p[3].try(:name) %>
+	<% if @host and p[3] %>
+	<%= f.hidden_field :pid, :value => p[3].id %> 
+	<%= f.submit 'kick out', :class => "btn btn-danger btn-xs", html:{style: style="display:inline"} %> 
+	<% end %>
+  <% end %>
 </p>
 
-<p>
-  <strong>Player4:</strong>
-  <%= @match.player4_id %>
-</p>
+</div>
+</div>
 
+
+<div class="panel panel-default">
+<div class="panel-body" >
 <p>
-  <strong>Start:</strong>
+  <strong>Start Time:</strong>
   <%= @match.start %>
 </p>
 
 <p>
-  <strong>End:</strong>
+  <strong>End Time:</strong>
   <%= @match.end %>
 </p>
 
@@ -36,26 +78,27 @@
 </p>
 
 <p>
-  <strong>Desc:</strong>
-  <%= @match.desc %>
+  <strong>Description:</strong>
+  <%= @match.court %>
 </p>
 
 <p>
-  <strong>Type:</strong>
+  <strong>Match Type:</strong>
   <%= @match.match_type %>
-</p>
-
-<p>
-  <strong>Conversation:</strong>
-  <%= @match.conversation %>
 </p>
 
 <%= link_to 'Edit', edit_match_path(@match) %> |
 <%= link_to 'Back', matches_path %>
+</div>
+</div>
 
 
-<%= content_tag :div, class: "chatbox", id: "chatbox_" + @conversation.id.to_s, style: "display:block;width:60%;" do -%>
-<div class="chatboxhead">
+</div>
+</div>
+
+
+<%= content_tag :div, class: "chatbox", id: "chatbox_" + @conversation.id.to_s, style: "display:block;float:right;width:59.5%;padding-left:1%;position:static" do -%>
+<div class="chatboxhead" style="background-color: #337ab7;">
   <div class="chatboxtitle">
     <i class="fa fa-comments"></i>
 
@@ -64,7 +107,7 @@
   <div class="chatboxoptions"></div>
   <br clear="all"/>
 </div>
-<div class="chatboxcontent" style="width:auto">
+<div class="chatboxcontent", id="chat_content_id", style="width:auto;height:580px">
   <% if @messages.any? %>
       <%= render @messages %>
   <% end %>
@@ -75,5 +118,9 @@
   <% end %>
 </div>
 <% end %>
+
+
 <%= subscribe_to conversation_path(@conversation) %>
+
+
 
