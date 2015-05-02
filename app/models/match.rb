@@ -1,5 +1,7 @@
 class Match < ActiveRecord::Base
   belongs_to :conversation
+  validates_length_of :court, :maximum => 50, :allow_blank => true
+  validates_length_of :desc, :maximum => 100, :allow_blank => true
 
   def self.created_matches(pid)
   	return Match.find_all_by_player1_id(pid)
