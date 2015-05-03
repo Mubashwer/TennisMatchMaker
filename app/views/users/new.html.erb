@@ -1,0 +1,48 @@
+<%= bootstrap_form_for(@user, layout: :horizontal) do |f| %>
+  <% if @user.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@user.errors.count, "error") %> prohibited this user from being saved:</h2>
+
+      <ul>
+      <% @user.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+<div class="row">
+  <div class="col-sm-12"><div class="panel panel-primary">
+    <div class="panel-heading"><h3 class="panel-title">Registration Form</h3></div>
+    <div class="panel-body">
+      <%= f.text_field :name, label: "Display name" %>
+      <%= f.text_field :desc, label: "Biography" %>
+      
+      <%= f.form_group :country, label: {text: "Email address"} do %>
+      <div style = "padding-top:7px"> <%= @user.email %> </div>
+      <%= f.hidden_field :email, :value => @user.email %>
+      <% end %>
+      
+      <%= f.select :gender, ["male", "female", "other"], { class: "form-control" } %>
+      
+      <%= f.date_select :birthday, label: "Birthday", start_year: Date.today.year - 125, end_year: Date.today.year%>
+      <%= f.text_field :postcode, label: "Residential postcode" %>
+      
+      <%= f.form_group :country, label: {text: "Residential country"} do %>
+      <%= f.country_select :country, { priority_countries: ["AU"]}, { class: "form-control" } %>
+      <% end %>
+      <%= f.text_field :skill_level, label: "Skill level" %>
+
+
+      <%= f.hidden_field :provider, :value => @user.provider %>
+      <%= f.hidden_field :uid, :value => @user.uid %>
+      <%= f.hidden_field :first_name, :value => @user.first_name %>
+      <%= f.hidden_field :last_name, :value => @user.last_name %>
+      <%= f.hidden_field :image, :value => @user.image %>
+      
+      <%= f.submit "Sign up", class: "btn btn-primary" %>
+    </div>
+  </div></div>
+</div>
+
+<% end %>

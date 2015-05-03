@@ -7,9 +7,16 @@ class Match < ActiveRecord::Base
   	return Match.find_all_by_player1_id(pid)
   end
 
+  def self.user_matches(pid)
+    return Match.where("player1_id = #{pid} or player2_id = #{pid} or player3_id = #{pid} or player4_id = #{pid} ")
+  end
+
   def self.previous_matches(pid)
-  	return Match.find_all_by_player1_id(pid) + Match.find_all_by_player2_id(pid) +\
-  	       Match.find_all_by_player3_id(pid)+ Match.find_all_by_player4_id(pid)
+    return Match.user_matches(pid).where("end < ?", Time.now.utc.to_s(:db)).order("end DESC")
+  end
+
+  def self.upcoming_matches(pid)
+    return Match.user_matches(pid).where("end >= ?", Time.now.utc.to_s(:db)).order("end ASC")
   end
 
   def self.find_match(user)
@@ -29,8 +36,11 @@ class Match < ActiveRecord::Base
 
         url = "https://maps.googleapis.com/maps/api/distancematrix/json?origins=#{p1_postcode}%2CAustralia&destinations=#{p2_postcode}%2CAustralia"
         doc = JSON.parse(open(url).read)
-
-        tmp << doc["rows"][0]["elements"][0]["distance"]["value"]
+        if (doc == {})
+          tmp << doc["rows"][0]["elements"][0]["distance"]["value"]
+        else
+          tmp << 100000
+        end
         match_distances << tmp
       end
     end

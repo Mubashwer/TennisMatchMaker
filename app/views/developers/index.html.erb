@@ -24,17 +24,17 @@ course.</p>
         <% end %>
         <h2><%= d.display_name %></h2>
         <p><strong>Email: </strong><br><%= d.email %></p>
-        <p><strong>Biography: </strong><br><%= simple_format(d.biography, nil, wrapper_tag: "span") %></p>
+        <p><%= simple_format(d.biography, nil, wrapper_tag: "span") %></p>
       </div></figure>
     <% end %>
   </div>
 </section>
-<div class="carousel-buttons-menu" style="style: centre;">
-  <p class="text-muted"><i>You can also use the arrows keys and the mouse to scroll through the carousel.</i></p>
+<div style="text-align: center;">
   <div class="btn-group">
-    <a id="prev" class="btn btn-primary" href="#" title="Previous developer">Previous</a>
-    <a id="next" class="btn btn-primary" href="#" title="Next developer">Next</a>
+    <a id="prev" class="btn btn-primary btn-sm" href="#" title="Previous">&lt;</a>
+    <a id="next" class="btn btn-primary btn-sm" href="#" title="Next">&gt;</a>
   </div>
+  <p class="text-muted" style="text-align: centre;"><i>You can also use the arrows keys or the mouse to scroll through the carousel.</i></p>
 </div>
 <p>The idea to develop a tennis matchmakng application was conceived when one of
 the group members (Geordie) saw the problem of university tennis courts being
@@ -46,9 +46,10 @@ players to meet up with other people that are willing to play at that same time.
 central hub where players can meet, communicate and arrange matches between
 themselves with minimal fuss. Hopefully, the occupation of tennis courts at (but
 not limited to) UoM will increase with our application.</p>
-<p>In honesty, most of us are relatively new and inexperienced with developing
+<p>In honesty, most of us were relatively new and inexperienced with developing
 web applications. Even with some prior experience with programming and certain
 web technologies, there were many difficulties faced during the development of
-the project which hindered its progress. But even then, most of those
+the project which hindered its progress. But in the end, most of those
 difficulties were overcomed, and many lessons (and skills) were learnt from the
 project.</p>
+<p>We hope you find the web application easy to use and useful.</p>

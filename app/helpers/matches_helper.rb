@@ -2,8 +2,8 @@ module MatchesHelper
     def can_join(pids)
         pids = pids.compact
         if !pids.include?(current_user.id) and 
-            ((@match.match_type = "Single" and pids.count < 2) or 
-            (@match.match_type = "Double" and pids.count < 4))
+            ((@match.match_type == "Single" and pids.count < 2) or 
+            (@match.match_type == "Double" and pids.count < 4))
             return true
         end
         return false
@@ -48,4 +48,14 @@ module MatchesHelper
 
         return left
     end
+
+    def get_class(match)
+        p_count = get_player_list(match).compact.count
+        if((match.match_type == "Single" and p_count == 2) or
+            (match.match_type == "Double" and p_count == 4))
+            return "success"
+        end
+        return ""
+    end
+
 end

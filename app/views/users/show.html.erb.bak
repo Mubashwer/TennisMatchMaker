@@ -1,0 +1,62 @@
+<p>
+  <strong>Name:</strong>
+  <%= @user.name %>
+</p>
+
+<p>
+  <strong>Gender:</strong>
+  <%= @user.gender %>
+</p>
+
+<p>
+  <strong>Location:</strong>
+  <%= if @user.postcode or @user.country then @user.postcode.to_s + ' ' + @user.country end%>
+</p>
+
+<p>
+<% if @user.id != current_user.id %>
+<%= link_to "Send Message", "#", class: "btn btn-success btn-xs start-conversation",
+            "data-sid" => current_user.id, "data-rip" => @user.id %>
+<% end %>
+
+<% if @myprofile %>
+<h3>Your Conversations</h3>
+<div style="height: 400px; overflow-y: auto; width:32%">
+  <% if @conversations.any? %>
+      <ul class="media-list">
+        <% @conversations.each do |conversation| %>
+            <li class="media">
+              <%= image_tag(User.find_by_id(conversation_interlocutor(conversation).id).image, class: "media-object pull-left") %>
+              <div class="media-body">
+                    <%= link_to(conversation_path(conversation), class: "conversation", "data-cid" => conversation.id) do -%>
+                    <h4 class="media-heading"><%= conversation_interlocutor(conversation).name %></h4>
+                    <p><%= conversation.messages.last.nil? ? "No messages" : emojify(truncate(conversation.messages.last.body, length: 45)) %></p>
+                    <% end %>
+              </div>
+            </li>
+        <% end %>
+      </ul>
+  <% else %>
+      <p>You have no conversations.</p>
+  <% end %>
+</div>
+<% end %>
+
+<h2> Previous Matches </h2>
+<ul class="media-list"> 
+<% @matches.each do |match| %>
+   <li class="media">
+         <%= image_tag(User.find_by_id(match.player1_id).image, :style => "float :left;") %>
+         <%= if match.player2_id then image_tag(User.find_by_id(match.player2_id).image, :style => "float :left;") end %>
+         <%= if match.player3_id then image_tag(User.find_by_id(match.player3_id).image, :style => "float :left;") end %>
+         <%= if match.player4_id then image_tag(User.find_by_id(match.player4_id).image, :style => "float :left;") end %>
+        <div class="media-body">
+          <a class="pull-left" href="#">
+          <h4 class="media-heading"><%=match.court %></h4>
+         	<p><%=match.desc %></p>
+          </a>
+      	</div>
+    </li>
+ <% end %>
+</ul>
+

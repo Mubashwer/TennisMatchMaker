@@ -4,10 +4,32 @@ class UsersController < ApplicationController
 
     def require_permission
         if current_user != User.find(params[:id])
-            redirect_to root_path
+            redirect_to match_path
         end
     end
 
+    # GET /users/new
+    def new
+        @user = User.from_omniauth(env["omniauth.auth"])
+        if User.find_by_email(@user.email) 
+            session[:user_id] = @user.id
+            redirect_to root_path
+        end
+
+
+    end
+
+    def create
+        @user = User.new(user_params)
+        respond_to do |format|
+          if @user.save
+            session[:user_id] = @user.id
+            format.html { redirect_to root_path }
+          else
+            format.html { render action: 'new' }
+          end
+        end
+    end
 
     # GET /users/1/edit
     def edit
@@ -15,7 +37,7 @@ class UsersController < ApplicationController
 
     def show
         
-        if current_user.nil? then redirect_to root_path end
+        if current_user.nil? then redirect_to root_path; return end
         @matches = Match.previous_matches(@user.id)
         @myprofile = false
         if current_user.id == @user.id then @myprofile = true end
@@ -42,7 +64,7 @@ class UsersController < ApplicationController
     end
 
     def user_params
-        params.require(:user).permit(:postcode, :country)
+        params.require(:user).permit(:provider, :uid, :name, :first_name, :last_name, :gender, :image, :desc, :email, :birthday, :postcode, :country, :skill_level)
     end
 
 

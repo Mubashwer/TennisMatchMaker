@@ -20,39 +20,43 @@
 <div class="panel-heading">Players</div>
 <div class="panel-body">
 <p>
-  <%= p[0].try(:name) + " (Host)" %>
+  <%= link_to(p[0].try(:name) + " (Host)", p[0]) %>
 </p>
 
 <p>
-  <%= form_for(@match, url: {action: "kick"}) do |f| %>
-  <%= p[1].try(:name) %>
-	<% if @host and p[1]%> 
-	<%= f.hidden_field :pid, :value => p[1].id %>
-	<%= f.submit 'kick out', :class => "btn btn-danger btn-xs", html:{style: style="display:inline"} %> 
-	<% end %>
+  <% if p[1] %>
+    <%= form_for(@match, url: {action: "kick"}) do |f| %>
+    <%= link_to(p[1].name, p[1]) %>
+    	<% if @host%> 
+    	<%= f.hidden_field :pid, :value => p[1].id %>
+    	<%= f.submit 'kick out', :class => "btn btn-danger btn-xs", html:{style: style="display:inline"} %> 
+    	<% end %>
+    <% end %>
   <% end %>
 </p>
 
 
 <p>
-  <%= form_for(@match, url: {action: "kick"}) do |f| %>
-  <%= p[2].try(:name) %>
-	<% if @host and p[2] %> 
-	<%= f.hidden_field :pid, :value => p[2].id %>
-	<%= f.submit 'kick out', :class => "btn btn-danger btn-xs", html:{style: style="display:inline"} %> 
-	<% end %>
+  <% if p[2] %>
+    <%= form_for(@match, url: {action: "kick"}) do |f| %>
+    <%= link_to(p[2].name, p[2]) %>
+      <% if @host%> 
+      <%= f.hidden_field :pid, :value => p[2].id %>
+      <%= f.submit 'kick out', :class => "btn btn-danger btn-xs", html:{style: style="display:inline"} %> 
+      <% end %>
+    <% end %>
   <% end %>
 </p>
 
-</p>
-
 <p>
-  <%= form_for(@match, url: {action: "kick"}) do |f| %>
-  <%= p[3].try(:name) %>
-	<% if @host and p[3] %>
-	<%= f.hidden_field :pid, :value => p[3].id %> 
-	<%= f.submit 'kick out', :class => "btn btn-danger btn-xs", html:{style: style="display:inline"} %> 
-	<% end %>
+  <% if p[3] %>
+    <%= form_for(@match, url: {action: "kick"}) do |f| %>
+    <%= link_to(p[3].name, p[3]) %>
+      <% if @host%> 
+      <%= f.hidden_field :pid, :value => p[3].id %>
+      <%= f.submit 'kick out', :class => "btn btn-danger btn-xs", html:{style: style="display:inline"} %> 
+      <% end %>
+    <% end %>
   <% end %>
 </p>
 
@@ -64,12 +68,12 @@
 <div class="panel-body" >
 <p>
   <strong>Start Time:</strong>
-  <%= @match.start %>
+  <%= @match.start.to_s[0...-5] %>
 </p>
 
 <p>
   <strong>End Time:</strong>
-  <%= @match.end %>
+  <%= @match.end.to_s[0...-5] %>
 </p>
 
 <p>
@@ -79,7 +83,7 @@
 
 <p>
   <strong>Description:</strong>
-  <%= @match.court %>
+  <%= @match.desc %>
 </p>
 
 <p>
@@ -87,11 +91,9 @@
   <%= @match.match_type %>
 </p>
 
-<%= link_to 'Edit', edit_match_path(@match) %> |
-<%= link_to 'Back', matches_path %>
+<%= link_to 'Edit', edit_match_path(@match) %>
 </div>
 </div>
-
 
 </div>
 </div>

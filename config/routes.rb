@@ -5,12 +5,13 @@ Myapp::Application.routes.draw do
   get "developers/index"
   get "users/show"
   get "about_us", to: 'developers#index'
-  get 'auth/:provider/callback', to: 'sessions#create'
+  get 'auth/:provider/callback', to: 'users#new'
   get 'auth/failure', to: redirect('/')
   get 'signout', to: 'sessions#destroy', as: 'signout'
   get 'users/conversations/:id', to: 'conversations#show'
 
 
+  get "find_matches", to: "matches#find_matches"
   match '/matches/:id/join', to: 'matches#join', via: [:patch]
   match '/matches/:id/kick', to: 'matches#kick', via: [:patch]
   

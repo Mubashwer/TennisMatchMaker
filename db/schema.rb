@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150430070612) do
+ActiveRecord::Schema.define(version: 20150503092132) do
 
   create_table "conversations", force: true do |t|
     t.integer  "sender_id"
@@ -68,7 +68,7 @@ ActiveRecord::Schema.define(version: 20150430070612) do
     t.string   "first_name"
     t.string   "last_name"
     t.string   "image"
-    t.string   "birthday"
+    t.datetime "birthday",    limit: 255
     t.string   "email"
     t.string   "gender"
     t.datetime "created_at"
@@ -76,6 +76,8 @@ ActiveRecord::Schema.define(version: 20150430070612) do
     t.string   "provider"
     t.integer  "postcode"
     t.string   "country"
+    t.text     "desc"
+    t.integer  "skill_level"
   end
 
 end

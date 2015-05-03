@@ -1,0 +1,40 @@
+<%= if notice then content_tag(:div, content_tag(:p, notice[0]), class: notice[1]) end %>
+<h1>Listing matches</h1>
+<%= link_to 'New Match', new_match_path,:class=>"btn btn-success btn-sm" %>
+<br>
+<script type="text/javascript">
+  function init() {
+      initCarousel();
+      return;
+  }
+  $(document).ready(function() { init(); });   
+</script>
+<div>
+<section id="carousel-container">
+  <div id="carousel" data-carousel-current-panel-index="0">
+    <figure class="carousel-panel-center">
+      <%= image_tag('/assets/MTO_Tennis_Ball.png', size:"800")%>
+    </figure>
+    <% @match_distances[0..12].each do |match_id, dist|
+          match = Match.find_by(id:match_id)
+          user = User.find_by(id:match.player1_id)%>
+      <figure class="carousel-panel"><div class="carousel-content">
+        <% if user.image %>
+          <%= image_tag(user.image, alt: user.name, class:"carousel_image") %>
+        <% end %>
+        <h2><%= user.name.split.map(&:capitalize).join(' ') %></h2>
+	<p class="btn btn-success btn-block"><%= match.start%></p>
+	<p class="btn btn-warning btn-block"><%= match.end%></p>
+	<p><%= match.match_type%></p>
+	<p><%= dist/1000.0%>km away</p>
+      </div></figure>
+    <% end %>
+  </div>
+  <a id="prev" class="carousel-button" href="#" title="Next developer">Previous</a>
+  <a id="next" class="carousel-button" href="#" title="Previous developer">Next</a>
+</section>
+</div>
+
+<br>
+<br>
+

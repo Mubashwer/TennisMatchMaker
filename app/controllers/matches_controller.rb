@@ -6,7 +6,7 @@ class MatchesController < ApplicationController
   include MatchesHelper
   # GET /matches
   # GET /matches.json
-  def index
+  def find_matches
     @matches = Match.all
     @match_distances = Match.find_match(current_user)
   end
@@ -20,6 +20,13 @@ class MatchesController < ApplicationController
     @message = Message.new
 
   end
+
+  def index
+    
+    @prev_matches = Match.upcoming_matches(current_user.id)
+    @up_matches = Match.previous_matches(current_user.id)
+  end
+
 
   # GET /matches/new
   def new
@@ -44,10 +51,8 @@ class MatchesController < ApplicationController
     respond_to do |format|
       if @match.save
         format.html { redirect_to @match, notice: ['Match was successfully created.', "alert alert-dismissible alert-success"] }
-        format.json { render action: 'show', status: :created, location: @match }
       else
         format.html { render action: 'new' }
-        format.json { render json: @match.errors, status: :unprocessable_entity }
       end
     end
   end
@@ -114,7 +119,7 @@ class MatchesController < ApplicationController
    @match.destroy
 
     respond_to do |format|
-      format.html { redirect_to matches_url, notice: ['You have succesfully left the match.', "alert alert-dismissible alert-warning"]}
+      format.html { redirect_to @match, notice: ['You have succesfully left the match.', "alert alert-dismissible alert-warning"]}
     end
   end
 

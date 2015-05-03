@@ -1,62 +1,90 @@
-<p>
-  <strong>Name:</strong>
-  <%= @user.name %>
-</p>
-
-<p>
-  <strong>Gender:</strong>
-  <%= @user.gender %>
-</p>
-
-<p>
-  <strong>Location:</strong>
-  <%= if @user.postcode or @user.country then @user.postcode.to_s + ' ' + @user.country end%>
-</p>
-
-<p>
-<% if @user.id != current_user.id %>
-<%= link_to "Send Message", "#", class: "btn btn-success btn-xs start-conversation",
-            "data-sid" => current_user.id, "data-rip" => @user.id %>
-<% end %>
-
-<% if @myprofile %>
-<h3>Your Conversations</h3>
-<div style="height: 400px; overflow-y: auto; width:32%">
-  <% if @conversations.any? %>
-      <ul class="media-list">
-        <% @conversations.each do |conversation| %>
-            <li class="media">
-              <%= image_tag(User.find_by_id(conversation_interlocutor(conversation).id).image, class: "media-object pull-left") %>
-              <div class="media-body">
-                    <%= link_to(conversation_path(conversation), class: "conversation", "data-cid" => conversation.id) do -%>
-                    <h4 class="media-heading"><%= conversation_interlocutor(conversation).name %></h4>
-                    <p><%= conversation.messages.last.nil? ? "No messages" : emojify(truncate(conversation.messages.last.body, length: 45)) %></p>
-                    <% end %>
-              </div>
-            </li>
-        <% end %>
-      </ul>
-  <% else %>
-      <p>You have no conversations.</p>
-  <% end %>
+<div class="row">
+  <div style="float: left; margin-right: 20px;">
+    <%= image_tag(@user.image, alt: "Profile picture", class: "img-thumbnail", size: "128x128") %>
+  </div><div style="float: left;">
+    <h1><%= @user.name %></h1>
+    <h3><i><%= @user.desc %></i></h3>
+  </div>
 </div>
+<br>
+<% if current_user and current_user.id != @user.id %>
+<%= link_to "Send Message", "#", class: "btn btn-success start-conversation", "data-sid" => current_user.id, "data-rip" => @user.id %><br><br>
 <% end %>
+<div class="row">
+  <% if @myprofile %><div class="col-sm-8"><% else %><div class="col-sm-12"><% end %><div class="panel panel-primary">
+    <%# Profile panel. %>
+    <div class="panel-heading"><h3 class="panel-title">Profile</h3></div>
+    <div class="panel-body">
+      <%# Display email to own user only. %>
+      <% if @myprofile %>
+        <p>
+          <strong>Email:</strong>
+          <%= @user.email %>
+        </p>
+      <% end %>
 
-<h2> Previous Matches </h2>
-<ul class="media-list"> 
-<% @matches.each do |match| %>
-   <li class="media">
-         <%= image_tag(User.find_by_id(match.player1_id).image, :style => "float :left;") %>
-         <%= if match.player2_id then image_tag(User.find_by_id(match.player2_id).image, :style => "float :left;") end %>
-         <%= if match.player3_id then image_tag(User.find_by_id(match.player3_id).image, :style => "float :left;") end %>
-         <%= if match.player4_id then image_tag(User.find_by_id(match.player4_id).image, :style => "float :left;") end %>
-        <div class="media-body">
-          <a class="pull-left" href="#">
-          <h4 class="media-heading"><%=match.court %></h4>
-         	<p><%=match.desc %></p>
-          </a>
-      	</div>
-    </li>
- <% end %>
-</ul>
+      <%# Display birthday to own user or age to public. %>
+      <% if @myprofile %>
+        <p>
+          <strong>Date of birth:</strong>
+          <%= @user.birthday ? @user.birthday.to_date : "Unspecified" %>
+        </p>
+      <% else %>
+        <p>
+          <strong>Age:</strong>
+          <% if @user.birthday %>
+            <% now = Time.now.utc.to_date %>
+            <% dob = @user.birthday %>
+            <%= now.year - dob.year - ((now.month > dob.month || (now.month == dob.month && now.day >= dob.day)) ? 0 : 1) %>
+          <% else %>
+            Unspecified
+          <% end %>
+        </p>
+      <% end %>
 
+      <%# Display location to own user only. %>
+      <% if @myprofile %>
+        <p>
+          <strong>Location:</strong>
+          <%= if @user.postcode or @user.country then @user.postcode.to_s + " " + @user.country end %>
+        </p>
+      <% end %>
+
+      <%# Display skill level to public. %>
+      <p>
+        <strong>Skill level:</strong>
+        <%= @user.skill_level %>
+      </p>
+
+      <%# Display edit button to own user only. %>
+      <% if @myprofile %>
+        <%= link_to 'Edit', edit_user_path(@user), class: "btn btn-default" %>
+      <% end %>
+    </div>
+  </div></div>
+
+  <% if @myprofile %><div class="col-sm-4"><div class="panel panel-primary">
+    <div class="panel-heading"><h3 class="panel-title">Your Conversations</h3></div>
+    <div class="panel-body">
+      <div style="max-height: 100%; overflow-y: auto;">
+        <% if @conversations.any? %>
+          <ul class="media-list">
+            <% @conversations.each do |conversation| %>
+              <li class="media">
+                <%= image_tag(User.find_by_id(conversation_interlocutor(conversation).id).image, class: "media-object pull-left", size: "60x45") %>
+                <div class="media-body">
+                  <%= link_to(conversation_path(conversation), class: "conversation", "data-cid" => conversation.id) do -%>
+                  <h4 class="media-heading"><%= conversation_interlocutor(conversation).name %></h4>
+                  <p><%= conversation.messages.last.nil? ? "No messages" : emojify(truncate(conversation.messages.last.body, length: 45)) %></p>
+                  <% end %>
+                </div>
+              </li>
+            <% end %>
+          </ul>
+        <% else %>
+          <p>You have no conversations.</p>
+        <% end %>
+      </div>
+    </div>
+  </div></div><% end %>
+</div>

@@ -95,6 +95,12 @@
     width: calc(100% - 10px - 4px - 8px);
 }
 
+#carousel .carousel-panel-center {
+    margin-left: auto;
+    margin-right: 60%;
+    position: absolute;
+}
+
 #carousel .carousel-panel .carousel-content {
     background: #111;
     color: #FFF;

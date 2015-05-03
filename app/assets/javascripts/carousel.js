@@ -6,6 +6,9 @@ var MIN_DELTA_MOUSE_PRESS_X = 100;    /* Minimum x distance of mouse movement to
 // Get all carousel panels.
 function getPanels() { return $("#carousel .carousel-panel"); }
 
+// Get center panel (one or zero)
+function getCenterPanel() { return $("#carousel .carousel-panel-center");}
+
 // Get carousel panel at the specified index.
 function getPanelAt(index) { return getPanels().eq(index); }
 
@@ -54,6 +57,12 @@ function orientateCarousel() {
     carousel.css("-moz-transform", "translateZ(" + (-1 * translateZ) + "px" + ") rotateY(" + (-1 * rotateY) + "deg" + ")");
     carousel.css("-o-transform", "translateZ(" + (-1 * translateZ) + "px" + ") rotateY(" + (-1 * rotateY) + "deg" + ")");
     carousel.css("transform", "translateZ(" + (-1 * translateZ) + "px" + ") rotateY(" + (-1 * rotateY) + "deg" + ")");
+
+    // Rotate centre panel the opposite way to ensure stationary
+    getCenterPanel().css("-webkit-transform", "rotateY(" + (rotateY) + "deg" + ")");
+    getCenterPanel().css("-moz-transform", "rotateY(" + (rotateY) + "deg" + ")");
+    getCenterPanel().css("-o-transform", "rotateY(" + (rotateY) + "deg" + ")");
+    getCenterPanel().css("transform", "rotateY(" + (rotateY) + "deg" + ")");
     return;
 }
 
