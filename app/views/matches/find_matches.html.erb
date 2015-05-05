@@ -29,7 +29,9 @@
   <div style="float: none;margin-left: auto;margin-right: auto;width:65%">
     <p class="span7 text-center alert alert-dismissible alert-warning">
       <strong><%= match.match_type%></strong><br/>
-      <strong><%=(dist != nil) ? dist/1000.0 +" km away" : "" %></strong>
+      <strong>
+        <%= !dist.nil? ? ((dist/1000.0).round(2).to_s + " km away") : "" %>
+      </strong>
     </p>
   </div>
   
