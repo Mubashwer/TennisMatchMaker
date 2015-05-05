@@ -17,44 +17,32 @@
     <div class="panel-body">
       <%# Display email to own user only. %>
       <% if @myprofile %>
-        <p>
-          <strong>Email:</strong>
-          <%= @user.email %>
-        </p>
+        <p><strong>Email address:</strong>
+        <%= @user.email %></p>
       <% end %>
 
       <%# Display birthday to own user or age to public. %>
       <% if @myprofile %>
-        <p>
-          <strong>Date of birth:</strong>
-          <%= @user.birthday ? @user.birthday.to_date : "Unspecified" %>
-        </p>
+        <p><strong>Date of birth:</strong>
+        <%= @user.birthday ? @user.birthday : "Unspecified" %></p>
       <% else %>
-        <p>
-          <strong>Age:</strong>
-          <% if @user.birthday %>
-            <% now = Time.now.utc.to_date %>
-            <% dob = @user.birthday %>
-            <%= now.year - dob.year - ((now.month > dob.month || (now.month == dob.month && now.day >= dob.day)) ? 0 : 1) %>
-          <% else %>
-            Unspecified
-          <% end %>
-        </p>
+        <p><strong>Age:</strong>
+        <%= @user.birthday ? @user.age : "Unspecified" %></p>
       <% end %>
+
+      <%# Display gender to public. %>
+      <p><strong>Gender:</strong>
+      <%= @user.gender ? @user.gender : "Unspecified" %></p>
 
       <%# Display location to own user only. %>
       <% if @myprofile %>
-        <p>
-          <strong>Location:</strong>
-          <%= if @user.postcode or @user.country then @user.postcode.to_s + " " + @user.country end %>
-        </p>
+        <p><strong>Residential location:</strong>
+        <%= (@user.postcode or @user.country) ? @user.location : "Unspecified" %></p>
       <% end %>
 
       <%# Display skill level to public. %>
-      <p>
-        <strong>Skill level:</strong>
-        <%= @user.skill_level %>
-      </p>
+      <p><strong>Skill level:</strong>
+      <%= @user.skill_level ? User::SKILL_LEVELS[@user.skill_level] : "Unspecified" %></p>
 
       <%# Display edit button to own user only. %>
       <% if @myprofile %>
@@ -71,7 +59,7 @@
           <ul class="media-list">
             <% @conversations.each do |conversation| %>
               <li class="media">
-                <%= image_tag(User.find_by_id(conversation_interlocutor(conversation).id).image, class: "media-object pull-left", size: "60x45") %>
+                <%= image_tag(User.find_by_id(conversation_interlocutor(conversation).id).image, class: "media-object pull-left", size: "60x50") %>
                 <div class="media-body">
                   <%= link_to(conversation_path(conversation), class: "conversation", "data-cid" => conversation.id) do -%>
                   <h4 class="media-heading"><%= conversation_interlocutor(conversation).name %></h4>

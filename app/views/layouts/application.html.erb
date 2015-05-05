@@ -3,7 +3,7 @@
     <head>
         <title>Tennis Matchmaker</title>
         <%= stylesheet_link_tag    "application", media: "all", "data-turbolinks-track" => true %>
-        <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" media="screen" rel="stylesheet" />
+        <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" media="screen" rel="stylesheet" />
         <%= javascript_include_tag "application", "data-turbolinks-track" => true %>
         <meta content='<%= !current_user.nil? ? current_user.id : "" %>' name='user-id'/>
         <%= csrf_meta_tags %>
@@ -27,12 +27,12 @@
                         <li><%= link_to "Home", root_path %></li>
                         <%# Signed-in users can find and create matches. %>
                         <% if current_user %>
-                        <li><%= link_to "My matches", matches_path %></li>
-                        <li><%= link_to "Find matches", "/find_matches" %></li>
-                        <li><%= link_to "Create match", new_match_path %></li>
+                        <li><%= link_to "My Matches", matches_path %></li>
+                        <li><%= link_to "Find Matches", "/find_matches" %></li>
+                        <li><%= link_to "Create Match", new_match_path %></li>
                         <% end %>
                         <li><%= link_to "FAQ", "/faq" %></li>
-                        <li><%= link_to "About us", "/about_us" %></li>
+                        <li><%= link_to "About Us", "/about_us" %></li>
                     </ul>
                     <%# Sign-in/out buttons, profile dropdown links. %>
                     <ul class="nav navbar-nav navbar-right">

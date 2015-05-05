@@ -1,4 +1,5 @@
 class UsersController < ApplicationController
+    before_action :authenticate_user, only:[:show, :edit, :update]
     before_action :set_user, only: [:show, :edit, :update]
     before_filter :require_permission, only: [:edit, :update]
 
@@ -10,12 +11,12 @@ class UsersController < ApplicationController
 
     # GET /users/new
     def new
-        @user = User.from_omniauth(env["omniauth.auth"])
-        if User.find_by_email(@user.email) 
+        @user = User.from_omniauth(env["omniauth.auth"]) #get user data from google
+        if User.find_by_email(@user.email) #if user alredady exists then go to home page
             session[:user_id] = @user.id
             redirect_to root_path
         end
-
+        # if not go to registration form for sign up
 
     end
 
@@ -35,14 +36,13 @@ class UsersController < ApplicationController
     def edit
     end
 
+    # GET /users/1
     def show
-        
-        if current_user.nil? then redirect_to root_path; return end
         @matches = Match.previous_matches(@user.id)
-        @myprofile = false
+        @myprofile = false # determins whose profile it is
         if current_user.id == @user.id then @myprofile = true end
 
-        @users = User.where.not("id = ?",current_user.id).order("created_at DESC")
+        # gets conversations of current_user (not used when you are visiting someone else's profile)
         @conversations = Conversation.involving(current_user).order("created_at DESC")
     end
 

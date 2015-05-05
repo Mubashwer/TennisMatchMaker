@@ -20,7 +20,7 @@ class MatchesController < ApplicationController
     @message = Message.new
 
   end
-
+  # GET /matches
   def index
     
     @prev_matches = Match.upcoming_matches(current_user.id)
@@ -71,6 +71,7 @@ class MatchesController < ApplicationController
     end
   end
 
+  # join or leave match
   def join
     pids = get_player_list(@match).map{|p| p.try(:id)} # list of player ids
     status = false
@@ -87,7 +88,7 @@ class MatchesController < ApplicationController
     end
 
     respond_to do |format|
-      if status and @match.save!
+      if status and @match.save
         format.html { redirect_to @match, notice: ['You have succesfully ' + done[0] + ' the match.', "alert alert-dismissible alert-" + done[1]] }
       else
         format.html { redirect_to @match, notice: ['Sorry, your request could not be processed.', "alert alert-dismissible alert-danger"] }
@@ -95,6 +96,7 @@ class MatchesController < ApplicationController
     end
   end
 
+  # host can kick people out of match
   def kick
     status = false
     pid = params[:match][:pid].to_i
@@ -105,7 +107,7 @@ class MatchesController < ApplicationController
     end
 
     respond_to do |format|
-      if status and @match.save!
+      if status and @match.save
         format.html { redirect_to @match, notice: ['Player have been successfully kicked out.', "alert alert-dismissible alert-success" ] }
       else
         format.html { redirect_to @match, notice: ['Sorry, your request could not be processed.', "alert alert-dismissible alert-danger"] }

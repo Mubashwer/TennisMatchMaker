@@ -27,7 +27,7 @@
   <% if p[1] %>
     <%= form_for(@match, url: {action: "kick"}) do |f| %>
     <%= link_to(p[1].name, p[1]) %>
-    	<% if @host%> 
+    	<% if @host%>  <!-- only host can kick people out -->
     	<%= f.hidden_field :pid, :value => p[1].id %>
     	<%= f.submit 'kick out', :class => "btn btn-danger btn-xs", html:{style: style="display:inline"} %> 
     	<% end %>
@@ -68,12 +68,12 @@
 <div class="panel-body" >
 <p>
   <strong>Start Time:</strong>
-  <%= @match.start.to_s[0...-5] %>
+  <%= @match.start.to_s(:long) %>
 </p>
 
 <p>
   <strong>End Time:</strong>
-  <%= @match.end.to_s[0...-5] %>
+  <%= @match.end.to_s(:long) %>
 </p>
 
 <p>
@@ -98,7 +98,7 @@
 </div>
 </div>
 
-
+<!-- CHAT ROOM -->
 <%= content_tag :div, class: "chatbox", id: "chatbox_" + @conversation.id.to_s, style: "display:block;float:right;width:59.5%;padding-left:1%;position:static" do -%>
 <div class="chatboxhead" style="background-color: #337ab7;">
   <div class="chatboxtitle">

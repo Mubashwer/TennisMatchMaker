@@ -36,10 +36,10 @@ class Match < ActiveRecord::Base
 
         url = "https://maps.googleapis.com/maps/api/distancematrix/json?origins=#{p1_postcode}%2CAustralia&destinations=#{p2_postcode}%2CAustralia"
         doc = JSON.parse(open(url).read)
-        if (doc == {})
+        if (doc["status"] == "OK" && doc["rows"][0]["elements"][0]["status"] == "OK")
           tmp << doc["rows"][0]["elements"][0]["distance"]["value"]
         else
-          tmp << 100000
+          tmp << nil
         end
         match_distances << tmp
       end
