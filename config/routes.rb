@@ -14,6 +14,7 @@ Myapp::Application.routes.draw do
   get "find_matches", to: "matches#find_matches"
   match '/matches/:id/join', to: 'matches#join', via: [:patch]
   match '/matches/:id/kick', to: 'matches#kick', via: [:patch]
+  match '/find_matches/carousel', to: 'matches#carousel', via: [:post]
   
   get "faq", to: 'faq#index'
   

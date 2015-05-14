@@ -5,6 +5,6 @@ test:
   server: "http://www.tennismatchmaker.co/faye"
   secret_token: "secret"
 production:
-  server: "http://www.tennismatchmaker.co/faye"
+  server: "https://tennismatchmaker.co/faye"
   secret_token: "83121c50f014a1116633f7d650e2baf23bf85e0c7ebb28bbca7d950026191934"
   #signature_expiration: 3600 # one hour

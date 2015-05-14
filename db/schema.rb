@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150504124336) do
+ActiveRecord::Schema.define(version: 20150511100352) do
 
   create_table "conversations", force: true do |t|
     t.integer  "sender_id"
@@ -47,6 +47,10 @@ ActiveRecord::Schema.define(version: 20150504124336) do
     t.integer  "conversation_id"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "postcode"
+    t.string   "country"
+    t.integer  "duration_hours"
+    t.integer  "duration_days"
   end
 
   add_index "matches", ["conversation_id"], name: "index_matches_on_conversation_id"
@@ -70,11 +74,11 @@ ActiveRecord::Schema.define(version: 20150504124336) do
     t.string   "image"
     t.date     "birthday",    limit: 255
     t.string   "email"
-    t.string   "gender"
+    t.integer  "gender",      limit: 255
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "provider"
-    t.integer  "postcode"
+    t.string   "postcode"
     t.string   "country"
     t.text     "desc"
     t.integer  "skill_level"

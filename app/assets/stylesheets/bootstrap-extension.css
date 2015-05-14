@@ -31,7 +31,9 @@ footer {
                    */
   position: absolute;
   width: 100%;
+  z-index: -10;
 }
 footer p {
   margin: 2px;
+  z-index: -10;
 }

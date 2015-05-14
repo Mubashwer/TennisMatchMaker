@@ -192,7 +192,7 @@ DEPENDENCIES
   gemoji
   jbuilder (~> 1.2)
   jquery-rails
-  omniauth-google-oauth2 (~> 0.2.1)
+  omniauth-google-oauth2
   private_pub
   rails (= 4.0.2)
   sass-rails (~> 4.0.0)

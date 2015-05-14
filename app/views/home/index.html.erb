@@ -9,6 +9,23 @@
   <h1>Tennis Matchmaker</h1>
   <p>A simple and easy web application to locate tennis partners and arrange
   tennis matches at any time.</p>
+  <div class="row">
+    <div style="float: left;">
+      <%= link_to "Find Matches", "/find_matches", class: "btn btn-warning" %>
+    </div>
+    <div style="float: left;">
+      <%= image_tag("right-grey-arrow-hi.png", alt: "&gt;", size: "20x20", style: "margin: 0px 40px") %>
+    </div>
+    <div style="float: left;">
+      <%= link_to "Create Match", new_match_path, class: "btn btn-info" %>
+    </div>
+    <div style="float: left;">
+      <%= image_tag("right-grey-arrow-hi.png", alt: "&gt;", size: "20x20", style: "margin: 0px 40px") %>
+    </div>
+    <div style="float: left;">
+      <%= link_to "My Matches", matches_path, class: "btn btn-success" %>
+    </div>
+  </div>
 </div>
 <div class="row">
   <div class="col-md-6">

@@ -1,6 +1,6 @@
 <div class="row">
   <div style="float: left; margin-right: 20px;">
-    <%= image_tag(@user.image, alt: "Profile picture", class: "img-thumbnail", size: "128x128") %>
+    <% if @user.image %><%= image_tag(@user.image, alt: "Profile picture", class: "img-thumbnail", size: "128x128") %><% end %>
   </div><div style="float: left;">
     <h1><%= @user.name %></h1>
     <h3><i><%= @user.desc %></i></h3>
@@ -32,7 +32,7 @@
 
       <%# Display gender to public. %>
       <p><strong>Gender:</strong>
-      <%= @user.gender ? @user.gender : "Unspecified" %></p>
+      <%= @user.gender ? User::GENDERS[@user.gender] : "Unspecified" %></p>
 
       <%# Display location to own user only. %>
       <% if @myprofile %>

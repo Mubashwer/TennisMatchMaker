@@ -1,24 +1,32 @@
-<%= bootstrap_form_for(@match, layout: :horizontal, label_col: "col-lg-2 control-label", control_col: "col-lg-10", :html => {:style => "width:55%;"}) do |f| %>
-  <fieldset>
+<%= bootstrap_form_for(@match, layout: :horizontal, label_col: "col-lg-2 control-label", control_col: "col-lg-10", :html => {:style => "width: 65%;"}, :remote => true) do |f| %>
   <% if @match.errors.any? %>
     <div id="error_explanation">
       <h2><%= pluralize(@match.errors.count, "error") %> prohibited this match from being saved:</h2>
-
       <ul>
-      <% @match.errors.full_messages.each do |msg| %>
-        <li><%= msg %></li>
-      <% end %>
+        <% @match.errors.full_messages.each do |msg| %>
+          <li><%= msg %></li>
+        <% end %>
       </ul>
     </div>
   <% end %>
+  <fieldset>
+    <%= f.select :match_type, Match::GENDER_VALID_MATCH_TYPES[current_user.gender], label: "Match type" %>
+    <%= f.datetime_select :start, label: "Start", start_year: Date.today.year, end_year: Date.today.year + 10 %>
 
-<%= f.select :match_type, options_for_select(%w[Single Double]) %>
-<%= f.datetime_select :start %>
-<%= f.datetime_select :end %>
-<%= f.text_field :court, :style => "resize: none" %>
-<%= f.text_area :desc, :style => "resize: none" %>
-<%= f.submit "Reset", :type => "reset" %>
-<%= f.submit "Submit", :class => "btn btn-primary" %>
-</fieldset>
+    <%= f.form_group :duration, label: {text: "Duration"} do %>
+    <%= f.select :duration_days, (0..4).to_a, label: "Days" %>
+    <%= f.select :duration_hours, (0..23).to_a, label: "Hours" %>
+    <% end %>
+
+    <%= f.text_field :court, label: "Tennis court" %>
+    <%= f.text_field :postcode, label: "Postcode", value: current_user.postcode%>
+    <%= f.form_group :country, label: {text: "Country"} do %>
+    <%= f.country_select :country, { priority_countries: [current_user.country]}, { class: "form-control" } %>
+    <% end %>
+
+    <%= f.text_area :desc, label: "Description", style: "resize: none" %>
+    <%= f.submit "Submit", class: "btn btn-primary" %>
+    <%= f.submit "Reset", type: "reset" %>
+  </fieldset>
+
 <% end %>
-<br />

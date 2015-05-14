@@ -1,4 +1,4 @@
-var IMAGES_SRC = "https://dl.dropboxusercontent.com/u/73445707/TennisMatchmaker/HomePageImages.json";    // URL of JSON file.
+var IMAGES_SRC = "/images/homepage/homepage.json";  // Relative URL of JSON file.
 
 /* Initialise the carousel. Carousel2 only used for home page, all other pages
  * should use Carousel (3D) instead.

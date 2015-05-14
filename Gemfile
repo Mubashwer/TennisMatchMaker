@@ -27,13 +27,14 @@ gem 'turbolinks'
 # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
 gem 'jbuilder', '~> 1.2'
 
-gem "omniauth-google-oauth2", "~> 0.2.1"
+gem 'omniauth-google-oauth2'
 gem 'country_select', github: 'stefanpenner/country_select'
 gem 'private_pub'
 gem 'thin'
 gem 'gemoji'
 gem 'bootstrap_form'
 gem 'browser-timezone-rails'
+
 group :doc do
   # bundle exec rake doc:rails generates the API under doc/api.
   gem 'sdoc', require: false

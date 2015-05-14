@@ -18,7 +18,6 @@ aside,
 details,
 figcaption,
 figure,
-footer,
 header,
 hgroup,
 main,
@@ -28,6 +27,10 @@ section,
 summary {
   display: block;
 }
+
+footer {display: block;
+        z-index: 0;}
+
 audio,
 canvas,
 progress,
@@ -3535,6 +3538,7 @@ tbody.collapse.in {
   content: "";
   border-top: 0;
   border-bottom: 4px solid;
+  z-index: -10;
 }
 .dropup .dropdown-menu,
 .navbar-fixed-bottom .dropdown .dropdown-menu {

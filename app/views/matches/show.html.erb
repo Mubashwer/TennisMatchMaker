@@ -9,7 +9,7 @@
 <% end %>
 
 
-<div class="panel panel-primary", id="details", style="float:left;width:40%;min-height:670px;">
+<div class="panel panel-primary", id="details", style="float:left;width:40%;min-height:490px;">
 <div class="panel-heading">
 <h3 class="panel-title"> Match Details</h3>
 </div>
@@ -73,7 +73,7 @@
 
 <p>
   <strong>End Time:</strong>
-  <%= @match.end.to_s(:long) %>
+  <%= (@match.end or @match.end_date).to_s(:long) %>
 </p>
 
 <p>
@@ -109,7 +109,7 @@
   <div class="chatboxoptions"></div>
   <br clear="all"/>
 </div>
-<div class="chatboxcontent", id="chat_content_id", style="width:auto;height:580px">
+<div class="chatboxcontent", id="chat_content_id", style="width:auto;height:400px">
   <% if @messages.any? %>
       <%= render @messages %>
   <% end %>

@@ -1,12 +1,39 @@
 module MatchesHelper
     def can_join(pids) #determines if it is possible to join match
-        pids = pids.compact
-        if !pids.include?(current_user.id) and #if you are already in it?
-            ((@match.match_type == "Single" and pids.count < 2) or  #if there is enough space?
-            (@match.match_type == "Double" and pids.count < 4))
-            return true
+        pids = pids.compact #list of ids
+        if pids.include?(current_user.id) then return false end
+        count = pids.count #number of players
+        match_type = @match.match_type
+
+        #if there isnt any room
+        if(["Singles", "Men's Singles", "Women's Singles"].include?(match_type)\
+            and count > 1)
+            return false
         end
-        return false
+        if(["Doubles", "Men's Doubles", "Women's Doubles"].include?(match_type)\
+            and count > 3)
+            return false
+        end
+        # 0 = Male, 1 = Female
+        #only men can enter men's games
+        if(["Men's Singles", "Men's Doubles"].include?(match_type)\
+            and current_user.gender != 0)
+            return false
+        end
+        #only women can enter women's games
+        if(["Women's Singles", "Women's Doubles"].include?(match_type)\
+            and current_user.gender != 1)
+            return false
+        end
+        
+        genders = pids.map{|pid| User.find(pid).gender} #genders of players
+        if(match_type == "Mixed Doubles"\
+            and ( ![0, 1].include?(current_user.gender)\
+            or genders.count(current_user.gender) > 1))
+            return false
+        end
+
+        return true
     end
 
     def get_player_list(match) #get the list of players
@@ -18,7 +45,7 @@ module MatchesHelper
         return p;
     end
 
-    def join_now(match, pid) #join if there is space
+    def join_now(match, pid) #join if there is space (second check)
         joined = false
         if match.player2_id.nil? then match.player2_id = pid; joined = true
         elsif match.player3_id.nil? then match.player3_id = pid ; joined = true
@@ -52,8 +79,9 @@ module MatchesHelper
 
     def get_class(match) # returns the class for match which is full/ready
         p_count = get_player_list(match).compact.count
-        if((match.match_type == "Single" and p_count == 2) or
-            (match.match_type == "Double" and p_count == 4))
+        match_type = match.match_type
+        if((["Singles", "Men's Singles", "Women's Singles"].include?(match_type) and p_count == 2) or
+            (["Doubles", "Men's Doubles", "Women's Doubles"].include?(match_type) and p_count == 4))
             return "success"
         end
         return ""

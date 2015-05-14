@@ -1,29 +1,32 @@
 <%= bootstrap_form_for(@user, layout: :horizontal) do |f| %>
   <% if @user.errors.any? %>
     <div id="error_explanation">
-      <h2><%= pluralize(@user.errors.count, "error") %> prohibited this user from being saved:</h2>
-
+      <h2><%= pluralize(@user.errors.count, "error") %> prohibited this profile from being saved:</h2>
       <ul>
-      <% @user.errors.full_messages.each do |msg| %>
-        <li><%= msg %></li>
-      <% end %>
+        <% @user.errors.full_messages.each do |msg| %>
+          <li><%= msg %></li>
+        <% end %>
       </ul>
     </div>
   <% end %>
 
 <div class="row">
+  <% if @user.image %><%= image_tag(@user.image, alt: "Profile picture", class: "img-thumbnail", size: "128x128") %><% end %>
+</div>
+<br>
+<div class="row">
   <div class="col-sm-12"><div class="panel panel-primary">
-    <div class="panel-heading"><h3 class="panel-title">Registration Form</h3></div>
+    <div class="panel-heading"><h3 class="panel-title">Registration</h3></div>
     <div class="panel-body">
       <%= f.text_field :name, label: "Display name" %>
       <%= f.text_field :desc, label: "Biography" %>
 
       <%= f.form_group :email, label: {text: "Email address"} do %>
       <div style = "padding: 7px 0px;"> <%= @user.email %> </div>
-      <%= f.hidden_field :email, :value => @user.email %>
+      <%= f.hidden_field :email, value: @user.email %>
       <% end %>
 
-      <%= f.select :gender, ["Male", "Female", "Other"], { class: "form-control" } %>
+      <%= f.select :gender, [["Male", 0], ["Female", 1], ["Other", 2]], label: "Gender" %>
 
       <%= f.date_select :birthday, label: "Birthday", start_year: Date.today.year - 125, end_year: Date.today.year%>
       <%= f.text_field :postcode, label: "Residential postcode" %>

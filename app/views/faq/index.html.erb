@@ -1,69 +1,99 @@
+<script type="text/javascript">
+  /**
+   * toggleMe(id) - Toggle the visibility of a question and its bullet point
+   *                image in the FAQ page.
+   * id - id of the question's HTML div tag.
+   */
+  function toggleMe(id) {
+      var questionE = document.getElementById(id),
+      imageE = document.getElementById(id + "_image");
+      if (!questionE || !imageE) return true;
+      if (questionE.style.display == "block") {
+          questionE.style.display = "none";
+          imageE.src = "assets/bullet-point.png";
+      } else {
+          questionE.style.display = "block";
+          imageE.src = "assets/bullet-point-opened.png";
+      }
+      return false;
+  }
+</script>
 <h1>Frequently asked questions</h1>
 <p>Have a problem? Check out our FAQ to see if you can find a solution to your
 problem. If you can't, feel free to contact us at john_smith@email.com.</p>
-<div class="row">
-  <div class="col-sm-3">
-    <h2>Questions</h2>
-    <p><a href="#question-1">Why use tennis matchmaker?</a></p>
-    <p><a href="#question-2">How does the matchmaking system work?</a></p>
-    <p><a href="#question-3">How does the skill rating work? What skill bracket is most suitable to me?</a></p>
-    <p><a href="#question-4">I can't attend the match that I arranged today. What should I do?</a></p>
-    <p><a href="#question-5">I need to update some of the details on my profile. How do I edit my profile?</a></p>
-    <p><a href="#question-6">My problem isn't listed here. Where can I find help?</a></p>
-  </div>
-  <div class="col-sm-9">
-    <h3><span id="question-1">Why use tennis matchmaker?</span></h3>
-    <p>Tennis matchmaker is a web application designed to help and ease users
-    with finding suitable tennis partner(s). We want to help the community in
-    enjoying the game of tennis and spread everyone's passion and enthusiasm for
-    it. Tennis matchmaker is simple and easy to use, and conveniently provides
-    the ability to keep track of your upcoming tennis games and arrange new
-    ones.</p>
 
-    <h3><span id="question-2">How does the matchmaking system work?</span></h3>
-    <p>Our system will look up your location with your postcode, and search for
-    other users who reside close to your area, sharing a similar skill level. It
-    will then recommend you with suitable matches to play tennis! Specified
-    court locations for a match are also considered in the recommendation of
-    matches.</p>
+<h3><a href="#" onclick="return toggleMe('question-1')"><%= image_tag("bullet-point.png", alt: "&bull;", size: "24x24", id: "question-1_image") %>
+Why use tennis matchmaker?
+</a></h3>
+<div id="question-1" style="display: none;"><p>
+Tennis matchmaker is a web application designed to help and ease users
+with finding suitable tennis partner(s). We want to help the community in
+enjoying the game of tennis and spread everyone's passion and enthusiasm for
+it. Tennis matchmaker is simple and easy to use, and conveniently provides
+the ability to keep track of your upcoming tennis games and arrange new
+ones.
+</p></div>
 
-    <h3><span id="question-3">How does the skill rating work? What skill bracket
-    is most suitable to me?</span></h3>
-    <p>Skill rating is just a rough estimate and a self assessment of yourself.
-    This is so that we can help users look for other people who share a similar
-    skill level to ensure recommended games are as challenging and fair as
-    possible. If you find yourself winning or losing many games against people
-    who are in your skill bracket, it is recommended that you update your skill
-    level to an appropriate one.</p> 
-    <p>This is just a rough guideline for yourself to assess your skill level
-    (ranked in ascending order):</p>
-    <ul>
-      <li><p>Beginner (Never or just started playing tennis)</p></li>
-      <li><p>Rookie (Learnt basic skills and knowledge of the game. Estimated experience: 1-2 years)</p></li>
-      <li><p>Amateur (Decent at the game, has knowledge of every aspect of tennis. Estimated experience: 2-4 years)</p></li>
-      <li><p>Intermediate (Comfortable in the game of tennis, and can play tennis at a high level. Must know all fundamentals of tennis. Estimated experience: 3-6 years)</p></li>
-      <li><p>Professional (Very proficient at tennis, and can play tennis at a very high level. Estimated experience: Competitive A-grade level minimum (local competitions))</p></li>
-    </ul>
+<h3><a href="#" onclick="return toggleMe('question-2')"><%= image_tag("bullet-point.png", alt: "&bull;", size: "24x24", id: "question-2_image") %>
+How does the matchmaking system work?
+</a></h3>
+<div id="question-2" style="display: none;"><p>
+Our system will look up your location with your postcode, and search for
+other users who reside close to your area, sharing a similar skill level. It
+will then recommend you with suitable matches to play tennis! Specified
+court locations for a match are also considered in the recommendation of
+matches.
+</p></div>
 
-    <h3><span id="question-4">I can't attend the match that I arranged today.
-    What should I do?</span></h3>
-    <p>You should notify your tennis matchmaker partner(s) as soon as possible
-    in any way, either by our inbuilt messenger or through other other means
-    (eg. Facebook, SMS, etc). It is recommended that players occassionally check
-    their message box 1 hour prior to their match to be updated of
-    any attendance problems.</p>
-
-    <h3><span id="question-5">I need to update some of the details on my profile.
-    How do I edit my profile?</span></h3>
-    <p>Make sure you have signed in with your Google account, then click on your
-    name in the navigation bar located on the top right corner of the webpage. A
-    dropdown menu with a link "View profile and messages" will appear. Click on
-    that and you will be directed to your profile page, where you should find an
-    edit button to update any of your profile details.</p>
-
-    <h3><span id="question-6">My problem isn't listed here. Where can I find
-    help?</span></h3>
-    <p>Contact us through email at john_smith@email.com. We will try to reply to
-    you as soon as possible.</p>
-  </div>
+<h3><a href="#" onclick="return toggleMe('question-3')"><%= image_tag("bullet-point.png", alt: "&bull;", size: "24x24", id: "question-3_image") %>
+How does the skill rating work? What skill bracket is most suitable to me?
+</a></h3>
+<div id="question-3" style="display: none;"><p>
+Skill rating is just a rough estimate and a self assessment of yourself.
+This is so that we can help users look for other people who share a similar
+skill level to ensure recommended games are as challenging and fair as
+possible. If you find yourself winning or losing many games against people
+who are in your skill bracket, it is recommended that you update your skill
+level to an appropriate one. 
+This is just a rough guideline for yourself to assess your skill level
+(ranked in ascending order):
+<ul>
+  <li>Beginner: (Never or just started playing tennis)</li>
+  <li>Rookie: (Learnt basic skills and knowledge of the game. Estimated experience: 1-2 years)</li>
+  <li>Amateur: (Decent at the game, has knowledge of every aspect of tennis. Estimated experience: 2-4 years)</li>
+  <li>Intermediate: (Comfortable in the game of tennis, and can play tennis at a high level. Must know all fundamentals of tennis. Estimated experience: 3-6 years)</li>
+  <li>Professional: (Very proficient at tennis, and can play tennis at a very high level. Estimated experience: Competitive A-grade level minimum (local competitions))</li>
+</ul>
 </div>
+
+<h3><a href="#" onclick="return toggleMe('question-4')"><%= image_tag("bullet-point.png", alt: "&bull;", size: "24x24", id: "question-4_image") %>
+I can't attend the match that I arranged today.
+What should I do?
+</a></h3>
+<div id="question-4" style="display: none;"><p>
+You should notify your tennis matchmaker partner(s) as soon as possible
+in any way, either by our inbuilt messenger or through other other means
+(eg. Facebook, SMS, etc). It is recommended that players occassionally check
+their message box 1 hour prior to their match to be updated of
+any attendance problems.
+</p></div>
+
+<h3><a href="#" onclick="return toggleMe('question-5')"><%= image_tag("bullet-point.png", alt: "&bull;", size: "24x24", id: "question-5_image") %>
+I need to update some of the details on my profile.
+How do I edit my profile?
+</a></h3>
+<div id="question-5" style="display: none;"><p>
+Make sure you have signed in with your Google account, then click on your
+name in the navigation bar located on the top right corner of the webpage. A
+dropdown menu with a link "View profile and messages" will appear. Click on
+that and you will be directed to your profile page, where you should find an
+edit button to update any of your profile details.
+</p></div>
+
+<h3><a href="#" onclick="return toggleMe('question-6')"><%= image_tag("bullet-point.png", alt: "&bull;", size: "24x24", id: "question-6_image") %>
+My problem isn't listed here. Where can I find help?
+</a></h3>
+<div id="question-6" style="display: none;"><p>
+Contact us through email at john_smith@email.com. We will try to reply to
+you as soon as possible.
+</p></div>

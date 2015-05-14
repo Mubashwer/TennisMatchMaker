@@ -7,9 +7,13 @@ class MatchesController < ApplicationController
   # GET /matches
   # GET /matches.json
   def find_matches
-    @matches = Match.all
-    @match_distances = Match.find_match(current_user)
   end
+
+  def carousel
+    @match_distances = Match.find_match(current_user, params[:match_type])
+    render :partial => 'carousel', :content_type => 'text/html', :locals => {:match_distances => @match_distances}
+  end
+
 
   # GET /matches/1
   # GET /matches/1.json
@@ -23,8 +27,8 @@ class MatchesController < ApplicationController
   # GET /matches
   def index
     
-    @prev_matches = Match.upcoming_matches(current_user.id)
-    @up_matches = Match.previous_matches(current_user.id)
+    @up_matches = Match.upcoming_matches(current_user.id)
+    @prev_matches = Match.previous_matches(current_user.id)
   end
 
 
@@ -42,12 +46,11 @@ class MatchesController < ApplicationController
   def create
     @match = Match.new(match_params)
     @match.player1_id = current_user.id
+    @match.end = @match.end_date
     conv = Conversation.new
     conv.match_id = @match.id
     conv.save!
     @match.conversation_id = conv.id
-
-
     respond_to do |format|
       if @match.save
         format.html { redirect_to @match, notice: ['Match was successfully created.', "alert alert-dismissible alert-success"] }
@@ -60,8 +63,10 @@ class MatchesController < ApplicationController
   # PATCH/PUT /matches/1
   # PATCH/PUT /matches/1.json
   def update
+    @match.assign_attributes(match_params)
+    @match.end = @match.end_date
     respond_to do |format|
-      if @match.update(match_params)
+      if @match.save
         format.html { redirect_to @match, notice: ['Match was successfully updated.', "alert alert-dismissible alert-success"] }
         format.json { head :no_content }
       else
@@ -137,6 +142,6 @@ class MatchesController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def match_params
-      params.require(:match).permit(:start, :end, :court, :desc, :match_type, :pid)
+      params.require(:match).permit(:start, :duration_hours, :duration_days, :court, :desc, :match_type, :pid, :country, :postcode)
     end
 end
