@@ -1,16 +1,16 @@
 class MatchesController < ApplicationController
   before_action :authenticate_user
   before_action :set_match, only: [:show, :edit, :update, :destroy, :join, :kick]
-  
-
   include MatchesHelper
+
   # GET /matches
   # GET /matches.json
   def find_matches
+    @match_distances = Match.find_match(current_user, "Any", nil)
   end
 
   def carousel
-    @match_distances = Match.find_match(current_user, params[:match_type])
+    @match_distances = Match.find_match(current_user, params[:match_type], params[:after].to_date)
     render :partial => 'carousel', :content_type => 'text/html', :locals => {:match_distances => @match_distances}
   end
 
@@ -18,19 +18,16 @@ class MatchesController < ApplicationController
   # GET /matches/1
   # GET /matches/1.json
   def show
-
     @conversation = Conversation.find_by_id(@match.conversation_id)
     @messages = @conversation.messages
     @message = Message.new
-
   end
+
   # GET /matches
   def index
-    
     @up_matches = Match.upcoming_matches(current_user.id)
     @prev_matches = Match.previous_matches(current_user.id)
   end
-
 
   # GET /matches/new
   def new
@@ -142,6 +139,6 @@ class MatchesController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def match_params
-      params.require(:match).permit(:start, :duration_hours, :duration_days, :court, :desc, :match_type, :pid, :country, :postcode)
+      params.require(:match).permit(:start, :duration_hours, :duration_days, :court, :desc, :match_type, :pid, :country, :postcode, :after)
     end
 end

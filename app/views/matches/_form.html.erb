@@ -1,4 +1,4 @@
-<%= bootstrap_form_for(@match, layout: :horizontal, label_col: "col-lg-2 control-label", control_col: "col-lg-10", :html => {:style => "width: 65%;"}, :remote => true) do |f| %>
+<%= bootstrap_form_for(@match, layout: :horizontal, label_col: "col-lg-2 control-label", control_col: "col-lg-10", :html => {:style => "width: 65%;"}) do |f| %>
   <% if @match.errors.any? %>
     <div id="error_explanation">
       <h2><%= pluralize(@match.errors.count, "error") %> prohibited this match from being saved:</h2>
@@ -12,6 +12,25 @@
   <fieldset>
     <%= f.select :match_type, Match::GENDER_VALID_MATCH_TYPES[current_user.gender], label: "Match type" %>
     <%= f.datetime_select :start, label: "Start", start_year: Date.today.year, end_year: Date.today.year + 10 %>
+    <div class="container">
+      <div class="row">
+	<div class="col-md-4">
+          <div class="form-group">
+            <div class='input-group date' id='datetimepicker1'>
+              <input type='text' class="form-control" />
+              <span class="input-group-addon">
+                <span class="glyphicon glyphicon-edit"></span>
+              </span>
+            </div>
+          </div>
+	</div>
+        <script type="text/javascript">
+          $(function () {
+          $('#datetimepicker1').datetimepicker({viewMode:'years'});
+          });
+        </script>
+      </div>
+    </div>
 
     <%= f.form_group :duration, label: {text: "Duration"} do %>
     <%= f.select :duration_days, (0..4).to_a, label: "Days" %>
@@ -19,7 +38,7 @@
     <% end %>
 
     <%= f.text_field :court, label: "Tennis court" %>
-    <%= f.text_field :postcode, label: "Postcode", value: current_user.postcode%>
+    <%= f.text_field :postcode, label: "Postcode" %>
     <%= f.form_group :country, label: {text: "Country"} do %>
     <%= f.country_select :country, { priority_countries: [current_user.country]}, { class: "form-control" } %>
     <% end %>

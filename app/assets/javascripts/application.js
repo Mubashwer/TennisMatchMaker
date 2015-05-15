@@ -17,4 +17,6 @@
 //= require browser_timezone_rails/set_time_zone
 //= require jquery_ujs
 //= require private_pub
+//= require moment
+//= require bootstrap-datetimepicker
 //= require_tree .

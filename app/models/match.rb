@@ -12,6 +12,8 @@ class Match < ActiveRecord::Base
 
   validates :desc, length: { maximum: 96 }
   validates :start, presence: true
+  validates :postcode, presence: true
+  validates :country, presence: true
   validates :duration_days, presence: true, numericality: true
   validates :duration_hours, presence: true, numericality: true
   validates :court, length: { maximum: 48 }
@@ -72,16 +74,19 @@ class Match < ActiveRecord::Base
     return Match.user_matches(pid).where("end >= ?", Time.now.utc.to_s(:db)).order("end ASC")
   end
 
-  def self.find_match(user, match_type)
+  def self.find_match(user, match_type, after)
     # Filter matches from the following:
     #   Self created matches,
     #   Gender restricted matches,
-    #   Full matches,
+    #   Queried matches,
     #   Already past matches (using start date).
+    #   Full matches,
     matches = Match.all.select do |m|
       m.player1_id != user.id and
       GENDER_VALID_MATCH_TYPES[user.gender].include?(m.match_type) and
+      (match_type == "Any" or m.match_type == match_type) and
       m.start > DateTime.now and
+      (after == nil or after.class != Date or m.end.to_date >= after) and
       !m.full?
     end
 
@@ -92,10 +97,6 @@ class Match < ActiveRecord::Base
 
     # Populate match_distances.
     matches.each do |match|
-      if match_type != "Any" and match.match_type != match_type
-        next
-      end
-
       destination = match.location
       url = "https://maps.googleapis.com/maps/api/distancematrix/json?key=#{ENV['GOOGLE_API_KEY']}&origins=#{CGI.escape(origin)}&destinations=#{CGI.escape(destination)}"
       doc = JSON.parse(open(url).read)
@@ -112,10 +113,18 @@ class Match < ActiveRecord::Base
     return match_distances.sort{ |e1, e2| (e1[1] or Float::INFINITY) <=> (e2[1] or Float::INFINITY) }
   end
 
-  # Returns match location. //TODO? Using player 1's location, do we want to
-  #   change it?
+  # Returns either (in fallback order):
+  #   Postcode concatenated with country name,
+  #   Postcode concatenated with country code,
+  #   Postcode or country name or country code.
   def location
-    return User.find(player1_id).location
+    c = Country.find_country_by_alpha2(country)
+    country_name = !c.nil? ? c.name : nil
+    if (postcode and country)
+      return postcode + ", " + (country_name or country)
+    else
+      return (postcode or country_name or country)
+    end
   end
 
   # Returns match start date.

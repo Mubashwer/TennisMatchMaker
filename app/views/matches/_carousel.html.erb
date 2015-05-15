@@ -7,42 +7,32 @@
 </script>
 <section id="carousel-container">
   <div id="carousel" data-carousel-current-panel-index="0">
-  <figure class="carousel-panel-center">
-    <%#= image_tag("tennis-ball.png", size: "1200x1200") %>
-  </figure>
+    <figure class="carousel-panel-center">
+      <%= image_tag("tennis-ball.png", size: "1200x1200") %>
+    </figure>
     <% match_distances[0..24].each do |match_id, dist|
-          match = Match.find_by(id:match_id)
-          user = User.find_by(id:match.player1_id)%>
+      match = Match.find_by(id:match_id)
+      user = User.find_by(id:match.player1_id)%>
       <figure class="carousel-panel"><div class="carousel-content">
-        <% if user.image %>
-          <%= image_tag(user.image, alt: user.name, class:"carousel_image") %>
-        <% end %>
+        <%= image_tag(user.image, alt: user.name, class:"carousel_image") if user.image %>
         <h3 class="span7 text-center"><%= user.name.split.map(&:capitalize).join(' ') %></h2>
-
-	<h3 class="span7 text-center"><span class="label label-success"><%= match.start.to_s(:long)%></span></h3>
-	<h3 class="span7 text-center"><span class="label label-danger"><%= match.end.to_s(:long)%></span></h3>
-	
-  <div style="float: none;margin-left: auto;margin-right: auto;width:65%">
-    <p class="span7 text-center alert alert-dismissible alert-warning">
-      <strong><%= match.match_type%></strong><br/>
-      <strong>
-        <%= !dist.nil? ? ((dist/1000.0).round(2).to_s + " km away") : "" %>
-      </strong>
-    </p>
-  </div>
-  
-  <p class="span7 text-center"><%=link_to("Match Page", match, {:class => "btn btn-info", :target => '_blank'}) %></p>
-
+        <h3 class="span7 text-center"><span class="label label-success"><%= match.start.to_s(:long)%></span></h3>
+	    <h3 class="span7 text-center"><span class="label label-danger"><%= match.end.to_s(:long)%></span></h3>
+	    <div style="float: none;margin-left: auto;margin-right: auto;width:65%">
+          <p class="span7 text-center alert alert-dismissible alert-warning">
+            <strong><%= match.match_type%></strong><br/>
+            <strong><%= !dist.nil? ? ((dist/1000.0).round(2).to_s + " km away") : "" %></strong>
+          </p>
+        </div>
+        <p class="span7 text-center"><%=link_to("Match Page", match, {:class => "btn btn-info", :target => '_blank'}) %></p>
       </div></figure>
     <% end %>
   </div>
-  <a id="prev" class="carousel-button" href="#" title="Next developer">Previous</a>
-  <a id="next" class="carousel-button" href="#" title="Previous developer">Next</a>
 </section>
 <div style="text-align: center;">
   <div class="btn-group">
     <a id="prev" class="btn btn-primary btn-sm" href="#" title="Previous">&lt;</a>
     <a id="next" class="btn btn-primary btn-sm" href="#" title="Next">&gt;</a>
   </div>
-  <p class="text-muted" style="text-align: centre;"><i>You can also use the arrows keys or the mouse to scroll through the carousel.</i></p>
+  <p class="text-muted" style="text-align: centre;"><i>You can also use the arrows keys or the mouse to scroll through the results.</i></p>
 </div>

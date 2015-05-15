@@ -1,12 +1,30 @@
-<h1>Find Matches</h1>
-<div style="position: absolute;z-index: 10;">
-<%= form_tag({:action => 'carousel'}, :remote => true, :'data-update-target' => 'update-container') do %>
-    <%= select_tag "match_type", options_for_select(['Any'] + Match::GENDER_VALID_MATCH_TYPES[current_user.gender])%>
-    <%= submit_tag 'Find', :disable_with => 'Please wait...', :class => 'submit' %>
-<% end %>
+<div class="row" style="position:absolute;z-index: 10;">
+  <div class="col-sm-12"><div class="panel panel-primary">
+    <div class="panel-heading"><h3 class="panel-title">Find Matches</h3></div>
+    <div class="panel-body">
+      <%= form_tag({:action => "carousel"}, {:remote => true, :"data-update-target" => "update-container", class: "form-inline"}) do %>
+        <%= submit_tag 'Find', :disable_with => 'Please wait...', :class => "btn btn-success" %>&nbsp
+        <div class="form-group">
+            <%= select_tag "match_type", options_for_select(["Any"] + Match::GENDER_VALID_MATCH_TYPES[current_user.gender]), class: "form-control" %>
+            <label for="match_type"> match on </label>
+        </div>
+        <div class="form-group">
+            <input type="date" name="after">
+          <label for="after"> or later</label> 
+        </div>
+      <% end %>
+    </div>
+  </div></div>
 </div>
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
 <br />
 <br />
 <div id="update-container">
-<%#= render :partial => 'carousel', :locals => {:match_distances => @match_distances} %>
+  <%= render :partial => 'carousel', :locals => {:match_distances => @match_distances} %>
 </div>
+

@@ -48,8 +48,6 @@ class User < ActiveRecord::Base
         user.provider = auth.provider
         user.name = auth.info.name
         user.image = auth.info.image.split("?")[0]
-        user.first_name = auth.info.first_name
-        user.last_name = auth.info.last_name
         user.email = auth.info.email
         user.birthday = auth.extra.raw_info.birthday
         user.gender = auth.extra.raw_info.gender

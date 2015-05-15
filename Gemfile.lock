@@ -36,6 +36,8 @@ GEM
     addressable (2.3.8)
     arel (4.0.1)
     atomic (1.1.14)
+    bootstrap3-datetimepicker-rails (4.7.14)
+      momentjs-rails (>= 2.8.1)
     bootstrap_form (2.3.0)
     browser-timezone-rails (0.0.8)
       jquery-rails
@@ -97,6 +99,8 @@ GEM
       treetop (~> 1.4.8)
     mime-types (1.25.1)
     minitest (4.7.5)
+    momentjs-rails (2.10.2)
+      railties (>= 3.1)
     multi_json (1.8.2)
     multi_xml (0.5.5)
     multipart-post (2.0.0)
@@ -185,6 +189,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  bootstrap3-datetimepicker-rails (~> 4.7.14)
   bootstrap_form
   browser-timezone-rails
   coffee-rails (~> 4.0.0)
@@ -192,6 +197,7 @@ DEPENDENCIES
   gemoji
   jbuilder (~> 1.2)
   jquery-rails
+  momentjs-rails (>= 2.9.0)
   omniauth-google-oauth2
   private_pub
   rails (= 4.0.2)
