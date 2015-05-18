@@ -7,6 +7,9 @@ class MessagesController < ApplicationController
     @message.user_id = current_user.id
     @message.save!
 
+    @conversation.updated_at = Time.now.to_datetime
+    @conversation.save
+
     @path = conversation_path(@conversation)
     respond_to do |format|
             format.html

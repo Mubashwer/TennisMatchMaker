@@ -36,3 +36,7 @@ footer {
 footer p {
   margin: 2px;
 }
+.navbar-fixed-top,
+.navbar-fixed-bottom {
+  z-index: 0;
+}

@@ -95,6 +95,33 @@
     width: calc(100% - 10px - 4px - 8px);
 }
 
+.carousel-panel-preview {
+    background: #DDD;
+    background: -webkit-linear-gradient(135deg, #EEE, #DDD, #CCC);
+    background: -o-linear-gradient(135deg, #EEE, #DDD, #CCC);
+    background: -moz-linear-gradient(135deg, #EEE, #DDD, #CCC);
+    background: linear-gradient(135deg, #EEE, #DDD, #CCC);
+    border: 2px solid #BBB;
+    border-radius: 4px;
+    box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.2) inset;
+    display: block;
+    height: 500px;
+    left: 10px;
+    margin: 0px;
+    padding: 0px;
+    position: absolute;
+    top: 10px;
+    width: 315px;
+}
+
+.carousel-panel-preview:hover{
+
+    background: #5bc0de;
+
+}
+
+#carousel .carousel-panel-hidden { display: none; }
+
 /* #carousel .carousel-panel-center-small { */
 /*     position: absolute; */
 /*     margin: auto; */
@@ -112,10 +139,10 @@
     margin: auto;
     top: 50%;
     left: 50%;
-    width: 1200px;
-    height: 1200px;
-    margin-top: -600px;
-    margin-left: -600px;
+    width: 900px;
+    height: 900px;
+    margin-top: -450px;
+    margin-left: -450px;
     -webkit-transition: -webkit-transform 1s;
     -moz-transition: -moz-transform 1s;
     -o-transition: -o-transform 1s;
@@ -132,6 +159,74 @@
     width: calc(100% - 20px);
 }
 
+.carousel-content-preview {
+    background: #111;
+    color: #FFF;
+    display: block;
+    height: 475px;;
+    margin: 10px;
+    overflow-y: auto;
+    width: 290px;
+}
+
+.carousel-panel-preview .help-text {
+    
+    position:relative;
+    top:30px;
+    text-align:center;
+    visibility:hidden;
+
+}
+
+.help-text {
+
+    z-index:1000;
+    visibility:hidden;
+
+}
+
+/* .carousel-content-preview:hover { */
+
+/*     /\* IE 8 *\/ */
+/*     -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=20)"; */
+
+/*     /\* IE 5-7 *\/ */
+/*     filter: alpha(opacity=20); */
+
+/*     /\* Netscape *\/ */
+/*     -moz-opacity: 0.2; */
+
+/*     /\* Safari 1.x *\/ */
+/*     -khtml-opacity: 0.2; */
+
+/*     /\* Good browsers *\/ */
+/*     opacity: 0.2; */
+/* } */
+
+.carousel-panel-preview .help-panel  {
+
+    background: #111;
+    color: #FFF;
+    display: block;
+    height: 475px;;
+    margin: 10px;
+    overflow-y: auto;
+    width: 290px;
+    visibility:hidden;
+
+}
+
+.carousel-content-preview:hover .carousel-panel-preview .help-panel {
+
+    visibility:visible;
+}
+
+.carousel-panel-preview:hover .help-text {
+
+    visibility:visible;
+
+}
+
 #carousel .carousel-panel .carousel-content img {
     max-height: 360px;
     max-width: 100%;
@@ -139,10 +234,44 @@
 #carousel .carousel-panel .carousel-content h1,
 #carousel .carousel-panel .carousel-content h2,
 #carousel .carousel-panel .carousel-content h3,
-#carousel .carousel-panel .carousel-content h4,
-#carousel .carousel-panel .carousel-content h5,
-#carousel .carousel-panel .carousel-content h6,
 #carousel .carousel-panel .carousel-content p {
     margin: 10px;
     word-wrap: break-word;
+}
+
+.carousel_image_one {
+    display: block;
+    margin: 0px auto;
+    width: 200px;
+    height: 200px;
+}
+
+.carousel_image_two {
+    display: inline-block;
+    height: 110px;
+    margin: 5px;
+    vertical-align: middle;
+    width: 110px;
+}
+h4.carousel_text_two {
+    display: inline-block;
+    margin: -5px 0px;
+    max-width: 190px;
+    overflow: hidden;
+    white-space: nowrap;
+}
+
+.carousel_image_three {
+    display: inline-block;
+    height: 70px;
+    margin: 5px;
+    vertical-align: middle;
+    width: 70px;
+}
+h4.carousel_text_three {
+    display: inline-block;
+    margin: -5px 0px;
+    max-width: 230px;
+    overflow: hidden;
+    white-space: nowrap;
 }

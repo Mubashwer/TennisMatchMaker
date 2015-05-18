@@ -1,20 +1,79 @@
+<script>
+var month = new Array();
+month[0] = "Jan";
+month[1] = "Feb";
+month[2] = "Mar";
+month[3] = "Apr";
+month[4] = "May";
+month[5] = "Jun";
+month[6] = "Jul";
+month[7] = "Aug";
+month[8] = "Sep";
+month[9] = "Oct";
+month[10] = "Nov";
+month[11] = "Dec";
+
+Date.prototype.addDays = function(days) {
+    this.setDate(this.getDate() + parseInt(days));
+    return this;
+};
+Date.prototype.addHours = function(hours) {
+    this.setHours(this.getHours() + parseInt(hours));
+    return this;
+};
+
+$(document).mousemove(function(event){
+    var start,end, startDate, endDate;
+
+    start = $("#match_start").val();
+    startFormatted = start.replace('t','').replace('h','').replace('r','').replace('d','').replace('s','');
+    startDate = new Date(startFormatted);
+    $("#start_preview").html(startFormatted);
+
+    endDate   = new Date(startFormatted);
+    if (start == "") end = "";
+    else {
+        endDate.addDays($("#match_duration_days").val());
+        endDate.addHours($("#match_duration_hours").val());
+        end = month[endDate.getMonth()] + " " + endDate.getDate() + ", " +
+              endDate.getFullYear() + " " + endDate.getHours() + ":" + endDate.getMinutes();
+    }
+    $("#end_preview").html(end);
+
+    $("#type_preview").html($("#match_match_type").val());
+});
+</script>
 <div class="panel panel-primary">
-	<div class="panel-heading">
-		<h3 class="panel-title"><strong>Create a match</strong></h3>
-	</div>
-	
-	<div class="panel-body">
-	  <div class="row">
-	    <div class="col-md-10">
-	      <%= render 'form' %>
-	    </div>
-	    <div class="col-md-2" style="z-index:1000;">
-	      <div id="carousel" data-carousel-current-panel-index="0">
-		<figure class="carousel-panel-center">
-		  hello
-		</figure>
+  <div class="panel-heading">
+    <h3 class="panel-title">Create a match</h3>
+  </div>
+  <div class="panel-body">
+    <div class="row">
+      <div class="col-md-7">
+	<%= render 'form' %>
+      </div>
+      <div class="col-md-1">
+	<h4 class="text-center"><span class="label label-info">...preview...</span></h4>
+      </div>
+      <div class="col-md-4">
+	<figure class="carousel-panel-preview">
+	  <div class="carousel-content-preview">
+            <div style="display: block; height: 50%;">
+	      <div>
+		<%= image_tag(current_user.image, alt: current_user.name, class:"carousel_image_singles") if current_user.image %>
 	      </div>
+	      <h4 class="span7 text-center"><%= current_user.name %></h4>
+	    </div>
+	    <h3 class="text-center"><span class="label label-success" id="start_preview"></span></h3>
+	    <h3 class="text-center"><span class="label label-danger" id="end_preview"></span></h3>
+	    <div style="float: none;margin-left: auto;margin-right: auto;width:65%">
+	      <p class="text-center alert alert-dismissible alert-warning" id="type_preview">
+		<strong></strong><br/>
 	    </div>
 	  </div>
-	</div>
+	  <div class="label label-info help-text">This is what your match will appear like in "Find Matches"</div>
+	</figure>
+      </div>
+    </div>
+  </div>
 </div>

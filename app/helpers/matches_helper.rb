@@ -87,4 +87,19 @@ module MatchesHelper
         return ""
     end
 
+    def get_lat_long postcode
+        url = "https://maps.googleapis.com/maps/api/geocode/json?address=#{postcode}&components=country:AU"
+        doc = JSON.parse(open(url).read)
+    
+        if (doc["status"] == "OK") 
+            latitude = doc["results"][0]["geometry"]["location"]["lat"]
+            longtitude = doc["results"][0]["geometry"]["location"]["lng"]
+        else
+        
+            raise "Error parsing data"
+        end
+        return [latitude, longtitude]
+    
+    end   
+
 end

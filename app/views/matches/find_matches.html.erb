@@ -1,7 +1,8 @@
-<div class="row" style="position:absolute;z-index: 10;">
+<div class="row" style="position:absolute;z-index: 10;padding-left:16%;">
   <div class="col-sm-12"><div class="panel panel-primary">
     <div class="panel-heading"><h3 class="panel-title">Find Matches</h3></div>
     <div class="panel-body">
+      <!-- :remote => true makes it an ajax post request which is handled in find_matches.js and update-container div is updated only -->
       <%= form_tag({:action => "carousel"}, {:remote => true, :"data-update-target" => "update-container", class: "form-inline"}) do %>
         <%= submit_tag 'Find', :disable_with => 'Please wait...', :class => "btn btn-success" %>&nbsp
         <div class="form-group">
@@ -16,15 +17,32 @@
     </div>
   </div></div>
 </div>
-<br />
-<br />
-<br />
-<br />
-<br />
-<br />
-<br />
-<br />
-<div id="update-container">
-  <%= render :partial => 'carousel', :locals => {:match_distances => @match_distances} %>
-</div>
 
+<br><br><br><br><br><br><br>
+
+<script type="text/javascript">
+  function init() {
+      initCarousel();
+      return;
+  }
+  $(document).ready(init);
+</script>
+<section id="carousel-container">
+  <div id="carousel" data-carousel-current-panel-index="0">
+    <figure class="carousel-panel-center">
+      <%= image_tag("tennis-ball.png", size: "900x900") %>
+    </figure>
+<!-- this div is updated when you search -->
+<div id="update-container">
+  <%= render :partial => 'carousel', :locals => {:match_distances => @match_distances} %> <!-- default search results -->
+</div>
+  </div>
+</section>
+<div style="text-align: center;">
+  <br>
+  <div class="btn-group">
+    <a id="prev" class="btn btn-primary btn-sm" href="#" title="Previous"><span class="glyphicon glyphicon-chevron-left"></span></a>
+    <a id="next" class="btn btn-primary btn-sm" href="#" title="Next"><span class="glyphicon glyphicon-chevron-right"></span></a>
+  </div>
+  <p class="text-muted" style="text-align: centre;"><i>Use the arrows keys or the mouse to scroll through the results.</i></p>
+</div>

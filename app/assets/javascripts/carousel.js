@@ -3,8 +3,11 @@ var MIN_DELTA_MOUSE_PRESS_X = 100;    /* Minimum x distance of mouse movement to
                                        * swipe carousel, in pixels, as a number.
                                        */
 
-// Get all carousel panels.
+// Get all active carousel panels.
 function getPanels() { return $("#carousel .carousel-panel"); }
+
+// Get all active and hidden carousel panels.
+function getAllPanels() { return getPanels().add("#carousel .carousel-panel-hidden"); }
 
 // Get center panel (one or zero)
 function getCenterPanel() { return $("#carousel .carousel-panel-center");}
@@ -29,7 +32,7 @@ function getPanelRotateY() { return FULL_TURN_DEGREE / getPanels().length; }
 function getPanelTranslateZ() {
     var numberOfPanels = getPanels().length;
     var panelSize = getPanelSize();
-    return Math.round((panelSize / 2) / Math.tan(Math.PI / numberOfPanels));
+    return Math.round((panelSize / 2) / Math.tan(Math.PI / (numberOfPanels > 6 ? numberOfPanels : 6)));
 }
 
 // Get carousel displaying panel's index, as a number.
@@ -79,6 +82,19 @@ function orientatePanels() {
 
     // Re-orientate and transform the carousel in response to changes to panels.
     orientateCarousel();
+
+    /* Bug fixes for AJAX version of carousel.
+     */
+    // Remove images shadows while dragging.
+    $("#carousel img").attr("draggable", "false");
+    // Resize centre panel and its image with number of results.
+    var centerPanelSize = 45 * getPanels().length + 450;
+    getCenterPanel().width(centerPanelSize);
+    getCenterPanel().height(centerPanelSize);
+    getCenterPanel().css("margin-top", -centerPanelSize / 2);
+    getCenterPanel().css("margin-left", -centerPanelSize / 2);
+    $("img", getCenterPanel()).width(centerPanelSize);
+    $("img", getCenterPanel()).height(centerPanelSize);
     return;
 }
 
@@ -105,6 +121,7 @@ function addPanel() {
                     "<p><strong>Email: </strong><br>" + "local@domain.com" + "</p>" +
                     "<p><strong>Biography: </strong><br>" + "Biography description about display name." + "</p>" +
                     "</div></figure>");
+    // Remove images shadows while dragging.
     orientatePanels();
     return;
 }

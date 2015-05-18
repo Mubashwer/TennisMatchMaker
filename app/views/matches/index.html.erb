@@ -1,116 +1,78 @@
 <script type="text/javascript"> /*hides previous match or upcoming match table depening on radio button selection*/
     $(document).ready(function(){
-        $("#previous_table").hide();
+        $("#previous_tbody").hide();
         $('input[type="radio"]').change(function(){   
             if($(this).attr("value")=="upcoming"){
-                $("#previous_table").hide();
-                $("#upcoming_table").show();
-                
+                $("#previous_tbody").hide();
+                $("#upcoming_tbody").show();
             }
             if($(this).attr("value")=="previous"){
-                $("#upcoming_table").hide();
-                $("#previous_table").show();
+                $("#upcoming_tbody").hide();
+                $("#previous_tbody").show();
             }
         });
     });
 </script>
 
+<%= if notice and notice.is_a?(Array) then content_tag(:div, content_tag(:p, notice[0]), class: notice[1]) end %>
+
 <div class="panel panel-primary">
-<div class="panel-heading">
-  <h1 class="panel-title"><strong>My Matches</strong></h1>
-</div>
-<div class="panel-body">
+  <div class="panel-heading"><h3 class="panel-title">My Matches</h3></div>
+  <div class="panel-body">
+    <div class="panel panel-default"><div class="panel-body">
+      <label class="radio-inline"><input type="radio" value="upcoming" name="match_list" checked="checked"><strong>Upcoming</strong></label>
+      <label class="radio-inline"><input type="radio" value="previous" name="match_list"><strong>Previous</strong></label>
+      <%=link_to("New Match", new_match_path, {:class => "btn btn-success btn-xs", :style => "margin-left: 10px;"})%>
+    </div>
+  </div>
 
-<div class="panel panel-default"><div class="panel-body">
-<div class="radio" style="float:left">
-  <label><input type="radio" value="upcoming" name="match_list" checked="checked"><strong>Upcoming</strong></label>
-  <label><input type="radio" value="previous" name="match_list"><strong>Previous</strong></label>
-</div>
-<div style="float:left;padding-top:8px;padding-left:20px">
-<%=link_to("New Match", new_match_path, {:class => "btn btn-success btn-xs"})%>
-</div>
-</div></div>
+  <table class="table table-striped table-hover ">
+    <thead>
+      <tr>
+        <th>Players</th>
+        <th>Start</th>
+        <th>End</th>
+        <th>Court</th>
+        <th>Details</th>
+      </tr>
+    </thead>
 
-<!-- shows upcoming match list -->
-<table id = "upcoming_table" class="table table-striped table-hover ">
-  <thead>
-    <tr>
-      <th>Players</th>
-      <th>Start</th>
-      <th>End</th>
-      <th>Court</th>
-      <th>Details</th>
-    </tr>
-  </thead>
-  <tbody>
-  <% @up_matches.all.each do|match| %>
-  <% p = get_player_list(match); %>
-    <%= content_tag :tr, class: get_class(match) do -%>
-      <td>
-      <%= link_to(image_tag(p[0].image, size: "30x30", alt: p[0].name), p[0])%>
-
-      <% if match.player2_id %>
-      <%= link_to(image_tag(p[1].image, size: "30x30", alt: p[1].name), p[1])%>
+    <%# Shows upcoming match list. %>
+    <tbody id="upcoming_tbody">
+      <% @up_matches.all.each do |match| %>
+        <% p = match.players %>
+        <%= content_tag :tr, class: get_class(match) do -%>
+          <td>
+            <%= link_to(image_tag(p[0].image, size: "30x30", alt: p[0].name), p[0])%>
+            <%= link_to(image_tag(p[1].image, size: "30x30", alt: p[1].name), p[1]) if match.player2_id %>
+            <%= link_to(image_tag(p[2].image, size: "30x30", alt: p[2].name), p[2]) if match.player3_id %>
+            <%= link_to(image_tag(p[3].image, size: "30x30", alt: p[3].name), p[3]) if match.player4_id %>
+          </td>
+          <td><%= match.start.to_s(:long) %></td>
+          <td><%= match.end.to_s(:long) %></td>
+          <td><%= match.court %></td>
+          <td><%= link_to("Match Page", match, {:class => "btn btn-info btn-sm"}) %></td>
+        <% end %>
       <% end %>
+    </tbody>
 
-      <% if match.player3_id %>
-      <%= link_to(image_tag(p[2].image, size: "30x30", alt: p[2].name), p[2])%>
+    <%# Shows previous match list. %>
+    <tbody id="previous_tbody">
+      <% @prev_matches.all.each do |match| %>
+        <% p = match.players %>
+        <%= content_tag :tr, class: get_class(match) do -%>
+          <td>
+            <%= link_to(image_tag(p[0].image, size: "30x30", alt: p[0].name), p[0])%>
+            <%= link_to(image_tag(p[1].image, size: "30x30", alt: p[1].name), p[1]) if match.player2_id %>
+            <%= link_to(image_tag(p[2].image, size: "30x30", alt: p[2].name), p[2]) if match.player3_id %>
+            <%= link_to(image_tag(p[3].image, size: "30x30", alt: p[3].name), p[3]) if match.player4_id %>
+          </td>
+          <td><%= match.start.to_s(:long) %></td>
+          <td><%= match.end.to_s(:long) %></td>
+          <td><%= match.court %></td>
+          <td><%= link_to("Match Page", match, {:class => "btn btn-info btn-sm"}) %></td>
+        <% end %>
       <% end %>
-
-      <% if match.player4_id %>
-      <%= link_to(image_tag(p[3].image, size: "30x30", alt: p[3].name), p[3])%>
-      <% end %>
-
-      </td>
-      <td><%=match.start.to_s(:long)%></td>
-      <td><%=match.end.to_s(:long)%></td>
-      <td><%=match.court%></td>
-      <td><%=link_to("Match Page", match, {:class => "btn btn-info btn-sm"}) %></td>
-    <% end %>
-  <% end %>
-  </tbody>
-</table>
-
-<!-- shows previous match list -->
-
-<table id = "previous_table" class="table table-striped table-hover ">
-  <thead>
-    <tr>
-      <th>Players</th>
-      <th>Start</th>
-      <th>End</th>
-      <th>Court</th>
-      <th>Details</th>
-    </tr>
-  </thead>
-  <tbody>
-  <% @prev_matches.all.each do|match| %>
-    <% p = get_player_list(match); %>
-    <%= content_tag :tr, class: get_class(match) do -%>
-      <td>
-      <%= link_to(image_tag(p[0].image, size: "30x30", alt: p[0].name), p[0])%>
-
-      <% if match.player2_id %>
-      <%= link_to(image_tag(p[1].image, size: "30x30", alt: p[1].name), p[1])%>
-      <% end %>
-
-      <% if match.player3_id %>
-      <%= link_to(image_tag(p[2].image, size: "30x30", alt: p[2].name), p[2])%>
-      <% end %>
-
-      <% if match.player4_id %>
-      <%= link_to(image_tag(p[3].image, size: "30x30", alt: p[3].name), p[3])%>
-      <% end %>
-
-      </td>
-      <td><%=match.start.to_s(:long)%></td>
-      <td><%=match.end.to_s(:long)%></td>
-      <td><%=match.court%></td>
-      <td><%=link_to("Match Page", match, {:class => "btn btn-info btn-sm"}) %></td>
-    <% end %>
-  <% end %>
-  </tbody>
-</table>
-
-</div>
+    </tbody>
+  </table>
 </div>

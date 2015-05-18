@@ -1,25 +1,49 @@
 <script type="text/javascript">
-  function init() {
-      initCarousel();
+  function refresh() {
+      orientatePanels();
       return;
   }
-  $(document).ready(function() { init(); });   
+  $(document).ready(refresh);
 </script>
-<section id="carousel-container">
-  <div id="carousel" data-carousel-current-panel-index="0">
-    <figure class="carousel-panel-center">
-      <%= image_tag("tennis-ball.png", size: "1200x1200") %>
-    </figure>
-    <% match_distances[0..24].each do |match_id, dist|
+    <% match_distances[0..15].each do |match_id, dist|
       match = Match.find_by(id:match_id)
-      user = User.find_by(id:match.player1_id)%>
+      player1 = User.find_by(id:match.player1_id)
+      player2 = User.find_by(id:match.player2_id)
+      player3 = User.find_by(id:match.player3_id) %>
       <figure class="carousel-panel"><div class="carousel-content">
-        <%= image_tag(user.image, alt: user.name, class:"carousel_image") if user.image %>
-        <h3 class="span7 text-center"><%= user.name.split.map(&:capitalize).join(' ') %></h2>
-        <h3 class="span7 text-center"><span class="label label-success"><%= match.start.to_s(:long)%></span></h3>
-	    <h3 class="span7 text-center"><span class="label label-danger"><%= match.end.to_s(:long)%></span></h3>
+        <div style="display: block; height: 50%;">
+        <% case match.players.length
+           when 1 %>
+            <%= image_tag(player1.image, alt: player1.name, class:"carousel_image_one") if player1.image %>
+            <h3 class="span7 text-center"><%= player1.name.split.map(&:capitalize).join(' ') %></h3>
+        <% when 2 %>
+            <div>
+              <%= image_tag(player1.image, alt: player1.name, class:"carousel_image_two") if player1.image %>
+              <h4 class="carousel_text_two"><%= player1.name.split.map(&:capitalize).join(' ') %></h4>
+            </div>
+            <% if !player2.nil? %><div>
+              <%= image_tag(player2.image, alt: player2.name, class:"carousel_image_two") if player2.image %>
+              <h4 class="carousel_text_two"><%= player2.name.split.map(&:capitalize).join(' ') %></h4>
+            </div><% end %>
+        <% when 3 %>
+            <div>
+              <%= image_tag(player1.image, alt: player1.name, class:"carousel_image_three") if player1.image %>
+              <h4 class="carousel_text_three"><%= player1.name.split.map(&:capitalize).join(' ') %></h4>
+            </div>
+            <% if !player2.nil? %><div>
+              <%= image_tag(player2.image, alt: player2.name, class:"carousel_image_three") if player2.image %>
+              <h4 class="carousel_text_three"><%= player2.name.split.map(&:capitalize).join(' ') %></h4>
+            </div><% end %>
+            <% if !player3.nil? %><div>
+              <%= image_tag(player3.image, alt: player3.name, class:"carousel_image_three") if player3.image %>
+              <h4 class="carousel_text_three"><%= player3.name.split.map(&:capitalize).join(' ') %></h4>
+            </div><% end %>
+        <% end %>
+        </div>
+        <h3 class="text-center"><span class="label label-success"><%= match.start.to_s(:long)%></span></h3>
+	    <h3 class="text-center"><span class="label label-danger"><%= match.end.to_s(:long)%></span></h3>
 	    <div style="float: none;margin-left: auto;margin-right: auto;width:65%">
-          <p class="span7 text-center alert alert-dismissible alert-warning">
+          <p class="text-center alert alert-dismissible alert-warning">
             <strong><%= match.match_type%></strong><br/>
             <strong><%= !dist.nil? ? ((dist/1000.0).round(2).to_s + " km away") : "" %></strong>
           </p>
@@ -27,12 +51,3 @@
         <p class="span7 text-center"><%=link_to("Match Page", match, {:class => "btn btn-info", :target => '_blank'}) %></p>
       </div></figure>
     <% end %>
-  </div>
-</section>
-<div style="text-align: center;">
-  <div class="btn-group">
-    <a id="prev" class="btn btn-primary btn-sm" href="#" title="Previous">&lt;</a>
-    <a id="next" class="btn btn-primary btn-sm" href="#" title="Next">&gt;</a>
-  </div>
-  <p class="text-muted" style="text-align: centre;"><i>You can also use the arrows keys or the mouse to scroll through the results.</i></p>
-</div>

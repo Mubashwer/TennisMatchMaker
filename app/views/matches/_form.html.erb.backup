@@ -10,27 +10,21 @@
     </div>
   <% end %>
   <fieldset>
-    <div class="row">
-      <div class="col-lg-11">
-      <%= f.select :match_type, Match::GENDER_VALID_MATCH_TYPES[
-        current_user.gender], label: "Match type" %>
-      </div>
-      <div class="col-lg-1">
-        <span class="has_popover glyphicon glyphicon-question-sign" data-toggle="popover" title="" data-content="Men/Women specified games are when you want to versus player with your own gender. Mixed double will specify to only allow exactly 2 men and 2 women to join the match."></span>
-      </div>
+    <%= f.select :match_type, Match::GENDER_VALID_MATCH_TYPES[current_user.gender], label: "Match type" %>
     <div class="form-group">
       <label class="control-label col-lg-2 control-label">
 	Start
       </label>
-      <div class="col-lg-9">
+      <div class="col-lg-10">
+
         <div class='input-group date' id='datetimepicker1'>
           <input type='text' class="form-control" id="match_start" name="match[start]"/>
           <span class="input-group-addon">
-            <span class="glyphicon glyphicon-edit"></span>
+            <span class="glyphicon glyphicon-question-sign"></span>
           </span>
         </div>
+
       </div>
-      <span id="start_q" class="has_popover glyphicon glyphicon-question-sign" data-toggle="popover" title="" data-content="Specify the date/time that you want to start."></span>
       <script type="text/javascript">
         $(function () {
         $('#datetimepicker1').datetimepicker({
@@ -47,20 +41,18 @@
         days
         <%= f.select_without_bootstrap :duration_hours, (0..23).to_a, {}, { class: "form-control" } %>
         hours
-        <span id="dur" class="has_popover glyphicon glyphicon-question-sign" data-toggle="popover" title="" data-content="Days represents the how during which days are you free to play starting from the start date, and Hours represent the hour that you want to play for. Read more in Faq"></span>
       </div>
     <% end %>
 
-    <%= f.text_field :court, :placeholder => "Court that you want to play at..", label: "Tennis court" %>
+    <%= f.text_field :court, label: "Tennis court" %>
     <%= f.text_field :postcode, label: "Postcode" %>
     <%= f.form_group :country, label: {text: "Country"} do %>
     <%= f.country_select :country, { priority_countries: [current_user.country]}, { class: "form-control" } %>
     <% end %>
 
-    <%= f.text_area :desc, :placeholder => "Any additional information that you would like to add...",label: "Description", style: "resize: none" %>
+    <%= f.text_area :desc, label: "Description", style: "resize: none" %>
     <%= f.submit "Submit", class: "btn btn-primary" %>
     <%= f.submit "Reset", type: "reset" %>
-    </div>
   </fieldset>
 
 <% end %>
@@ -71,22 +63,7 @@
 <div id="map-container">
   <div id="map-canvas"></div>
 </div>
-<style> 
-  
- #start_q{
-    margin-top: 30px;
-    margin-left: 5px;
- }
-
- #dur{
-    margin-left: 20px;
- }
-
- .glyphicon.glyphicon-question-sign{
-    font-size: 25px;
-    margin-top: 5px;
-  }
-
+<style>
  #map-container {
    height: 400px;
    border-radius: 16px 16px;
@@ -111,11 +88,7 @@
 var map;
 var infoWindow;
 var service;
-
-
-$(".has_popover").popover({trigger: "hover"});
-
-
+ 
 function initialize() {
   map = new google.maps.Map(document.getElementById('map-canvas'), {
     center: new google.maps.LatLng(-37.801, 144.969),

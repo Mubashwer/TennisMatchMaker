@@ -3,51 +3,32 @@
       initCarousel2();
       return;
   }
-  $(document).ready(function() { init(); });   
+  $(document).ready(init);
 </script>
 <div class="jumbotron">
   <h1>Tennis Matchmaker</h1>
   <p>A simple and easy web application to locate tennis partners and arrange
   tennis matches at any time.</p>
-  <div class="row">
-    <div style="float: left;">
-      <%= link_to "Find Matches", "/find_matches", class: "btn btn-warning" %>
-    </div>
-    <div style="float: left;">
-      <%= image_tag("right-grey-arrow-hi.png", alt: "&gt;", size: "20x20", style: "margin: 0px 40px") %>
-    </div>
-    <div style="float: left;">
-      <%= link_to "Create Match", new_match_path, class: "btn btn-info" %>
-    </div>
-    <div style="float: left;">
-      <%= image_tag("right-grey-arrow-hi.png", alt: "&gt;", size: "20x20", style: "margin: 0px 40px") %>
-    </div>
-    <div style="float: left;">
-      <%= link_to "My Matches", matches_path, class: "btn btn-success" %>
-    </div>
-  </div>
+  <!--<div class="row">
+    <%= link_to "/auth/google_oauth2", class: "btn btn-danger" + (current_user ? " disabled" : "") do %>
+    <span class="glyphicon glyphicon-log-in"></span><br>Register / Sign in<% end %>
+    <%= image_tag("right-grey-arrow-hi.png", alt: "&gt;", size: "20x20", style: "margin: 0px 12px") %>
+    <%= link_to "/view_profile", class: "btn btn-warning" + (!current_user ? " disabled" : "") do %>
+    <span class="glyphicon glyphicon-user"></span><br>Setup Profile<% end %>
+    <%= image_tag("right-grey-arrow-hi.png", alt: "&gt;", size: "20x20", style: "margin: 0px 12px") %>
+    <%= link_to "/find_matches", class: "btn btn-success" + (!current_user ? " disabled" : "") do %>
+    <span class="glyphicon glyphicon-search"></span><br>Find Matches<% end %>
+    <%= image_tag("right-grey-arrow-hi.png", alt: "&gt;", size: "20x20", style: "margin: 0px 12px") %>
+    <%= link_to new_match_path, class: "btn btn-primary" + (!current_user ? " disabled" : "") do %>
+    <span class="glyphicon glyphicon-plus"></span><br>Create Match<% end %>
+    <%= image_tag("right-grey-arrow-hi.png", alt: "&gt;", size: "20x20", style: "margin: 0px 12px") %>
+    <%= link_to matches_path, class: "btn btn-info" + (!current_user ? " disabled" : "") do %>
+    <span class="glyphicon glyphicon-calendar"></span><br>My Matches<% end %>
+  </div>-->
 </div>
 <div class="row">
   <div class="col-md-6">
-    <h2>What is <i>Tennis Matchmaker</i>?</h2>
-    <p>Tennis Matchmaker is a web application that allows various people to meet
-    up and play tennis in a seamless way.</p>
-    <h2>How do I start?</h2>
-    <p>Make sure you have a Google account. Simply log in with your Google account, and finding and creating match options will be available. Click on "Find Matches" to find other players who are interested in playing. Otherwise simply click on "Create Match" in order to create your own match profile with your preferred time and location for other users to see.</p>
-    <h2>Need help?</h2>
-    <p>Proceed to the FAQ page (found in the navigation bar at the top of the
-    webpage) to see some commonly asked questions. If you cannot find your
-    questions or solutions there, feel free to contact us via email at
-    john_smith@email.com found on the navigation bar at the top of the
-    webpage. Any suggestions are also welcomed.</p>
-    <h2>Will there be any future updates and improvements to the web
-    application?</h2>
-    <p>A solid answer cannot be provided immediately. Depending on the success
-    of our initial application, we may decide to further extend it to reach out
-    to all popular sports in Australia and not just limited to tennis. We would
-    also like to further improve the user interface and user interactions to
-    accomodate a better matchmaking system. Other future potential
-    extensions/features include tie-ins with tennis clubs and local signin.</p>
+    <%= image_tag("home-flowchart-small.png", alt: "Tennis Matchmaker", size: "496x690", class: "center-block") %>
   </div>
   <div class="col-md-6">
     <section id="carousel2-container"><div id="carousel2"></div></section>

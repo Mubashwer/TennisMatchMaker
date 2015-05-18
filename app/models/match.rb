@@ -2,6 +2,7 @@ require 'open-uri'
 require 'cgi'
 
 class Match < ActiveRecord::Base
+  has_one :conversation
   MATCH_TYPES = ["Singles", "Doubles", "Men's Singles", "Women's Singles", "Men's Doubles", "Women's Doubles", "Mixed Doubles"]
   MALE_GENDER_VALID_MATCH_TYPES = ["Singles", "Doubles", "Men's Singles", "Men's Doubles", "Mixed Doubles"]
   FEMALE_GENDER_VALID_MATCH_TYPES = ["Singles", "Doubles", "Women's Singles", "Women's Doubles", "Mixed Doubles"]
@@ -77,16 +78,23 @@ class Match < ActiveRecord::Base
   def self.find_match(user, match_type, after)
     # Filter matches from the following:
     #   Self created matches,
+    #   Joined matches,
     #   Gender restricted matches,
-    #   Queried matches,
+    #   Mixed matches filled with gender,
+    #   Queried match type,
+    #   Queried end date,
     #   Already past matches (using start date).
-    #   Full matches,
+    #   Full matches.
     matches = Match.all.select do |m|
       m.player1_id != user.id and
+      m.player2_id != user.id and
+      m.player3_id != user.id and
+      m.player4_id != user.id and
       GENDER_VALID_MATCH_TYPES[user.gender].include?(m.match_type) and
+      (m.match_type != "Mixed Doubles" or m.players.count { |p| p.gender == user.gender } < 2) and
       (match_type == "Any" or m.match_type == match_type) and
+      (after.nil? or !after.is_a?Date or m.end.to_date >= after) and
       m.start > DateTime.now and
-      (after == nil or after.class != Date or m.end.to_date >= after) and
       !m.full?
     end
 
@@ -140,7 +148,7 @@ class Match < ActiveRecord::Base
   # Returns players in match.
   def players
     return [User.find_by(id: player1_id), User.find_by(id: player2_id),
-    User.find_by(id: player3_id), User.find_by(id: player4_id)].reject { |u| u.nil? }
+    User.find_by(id: player3_id), User.find_by(id: player4_id)].compact
   end
   alias_method :users, :players
 

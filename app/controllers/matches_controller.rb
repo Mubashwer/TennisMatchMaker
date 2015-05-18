@@ -1,6 +1,7 @@
 class MatchesController < ApplicationController
   before_action :authenticate_user
   before_action :set_match, only: [:show, :edit, :update, :destroy, :join, :kick]
+  before_action :host, only: [:edit, :update, :destroy, :kick]
   include MatchesHelper
 
   # GET /matches
@@ -9,6 +10,7 @@ class MatchesController < ApplicationController
     @match_distances = Match.find_match(current_user, "Any", nil)
   end
 
+  # the controller for partial view of carousel which is appended on find_matches.html.erb via ajax
   def carousel
     @match_distances = Match.find_match(current_user, params[:match_type], params[:after].to_date)
     render :partial => 'carousel', :content_type => 'text/html', :locals => {:match_distances => @match_distances}
@@ -32,6 +34,11 @@ class MatchesController < ApplicationController
   # GET /matches/new
   def new
     @match = Match.new
+    # Default values entered for new match.
+    #   Postcode is defaulted to user's postcode.
+    #   Hours duration is defaulted to 2 hours.
+    @match.postcode = current_user.postcode
+    @match.duration_hours = 2
   end
 
   # GET /matches/1/edit
@@ -44,9 +51,12 @@ class MatchesController < ApplicationController
     @match = Match.new(match_params)
     @match.player1_id = current_user.id
     @match.end = @match.end_date
+
+    # Create a conversation for match.
     conv = Conversation.new
     conv.match_id = @match.id
     conv.save!
+
     @match.conversation_id = conv.id
     respond_to do |format|
       if @match.save
@@ -140,5 +150,11 @@ class MatchesController < ApplicationController
     # Never trust parameters from the scary internet, only allow the white list through.
     def match_params
       params.require(:match).permit(:start, :duration_hours, :duration_days, :court, :desc, :match_type, :pid, :country, :postcode, :after)
+    end
+
+    def host
+      if (!current_user or current_user.id != @match.player1_id)
+        redirect_to root_path
+      end
     end
 end

@@ -12,7 +12,7 @@ class UsersController < ApplicationController
   # GET /users/new
   def new
     @user = User.from_omniauth(env["omniauth.auth"]) #get user data from google
-    if User.find_by_email(@user.email) #if user alredady exists then go to home page
+    if User.find_by_email(@user.email) #if user already exists then go to home page
       session[:user_id] = @user.id
       redirect_to root_path
     end
@@ -42,7 +42,7 @@ class UsersController < ApplicationController
     @myprofile = false # determins whose profile it is
     if current_user.id == @user.id then @myprofile = true end
       # gets conversations of current_user (not used when you are visiting someone else's profile)
-      @conversations = Conversation.involving(current_user).order("created_at DESC")
+      @conversations = Conversation.involving(current_user).order("updated_at DESC")
     end
 
   def update
