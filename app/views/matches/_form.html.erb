@@ -18,10 +18,10 @@
       <div class="col-lg-1">
         <span class="has_popover glyphicon glyphicon-question-sign" data-toggle="popover" title="" data-content="Men/Women specified games are when you want to versus player with your own gender. Mixed double will specify to only allow exactly 2 men and 2 women to join the match."></span>
       </div>
-    <div class="form-group">
+    <div class="form-groupni">
       <label class="control-label col-lg-2 control-label">
 	Start
-      </label>
+      </label>ni
       <div class="col-lg-9">
         <div class='input-group date' id='datetimepicker1'>
           <input type='text' class="form-control" id="match_start" name="match[start]"/>
@@ -52,7 +52,14 @@
     <% end %>
 
     <%= f.text_field :court, :placeholder => "Court that you want to play at..", label: "Tennis court" %>
+   <div class = "row" >
+    <div class='col-md-10'>
     <%= f.text_field :postcode, label: "Postcode" %>
+  </div >
+    <div class='col-md-2'> 
+    <button class = "btn btn-info" onclick="initialize()">Refresh</button>
+  </div>
+</div>
     <%= f.form_group :country, label: {text: "Country"} do %>
     <%= f.country_select :country, { priority_countries: [current_user.country]}, { class: "form-control" } %>
     <% end %>
@@ -116,9 +123,16 @@ var service;
 $(".has_popover").popover({trigger: "hover"});
 
 
+
+
 function initialize() {
   map = new google.maps.Map(document.getElementById('map-canvas'), {
-    center: new google.maps.LatLng(-37.801, 144.969),
+    <% postcode = @match.postcode or current_user.postcode or 3000%>
+    <% country_code = @match.country %>
+
+    <% lat_long = get_lat_long(postcode, country_code ) %>
+
+    center: new google.maps.LatLng(<%= lat_long[0] %>, <%= lat_long[1] %>),
     zoom: 14,
     styles: [
       {
