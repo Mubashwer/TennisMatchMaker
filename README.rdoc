@@ -1,28 +1,15 @@
-== README
+Source Code for our project: https://tennismatchmaker.co/
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+Firstly, thank you for using our awesome Tennis Matchmaker web application, and even more thanks to you for checking out our "About us" page to learn more about the background of the application.
 
-Things you may want to cover:
-
-* Ruby version
-
-* System dependencies
-
-* Configuration
-
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+Who are we?
+We are a small group of students from the University of Melbourne, who met each other while studying the same subject. It is by no surprise that the subject is Web Information Technologies, and we formed a small team of six people to develop a web application "Tennis Matchmaker" as a project for the course.
 
 
-Please feel free to use a different markup language if you do not plan to run
-<tt>rake doc:app</tt>.
+The idea to develop a tennis matchmaking application was conceived when one of the group members (Geordie) saw the problem of university tennis courts being deserted, not because nobody wanted to play, but it was difficult for friends to arrange the same time to play together. There were no arrangements for players to meet up with other people that are willing to play at that same time.
+
+Our web application aims to resolve that. By providing players an online central hub where players can meet, communicate and arrange matches between themselves with minimal fuss. Hopefully, the occupation of tennis courts at (but not limited to) UoM will increase with our application.
+
+In honesty, most of us were relatively new and inexperienced with developing web applications. Even with some prior experience with programming and certain web technologies, there were many difficulties faced during the development of the project which hindered its progress. But in the end, most of those difficulties were overcomed, and many lessons (and skills) were learnt from the project.
+
+We hope you find the web application easy to use and useful.
